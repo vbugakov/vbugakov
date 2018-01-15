@@ -23,3 +23,7 @@ hs_err_pid*
 
 # class path for maven
 target/
+
+#Idea files to ignore
+.idea/
+*.iml
