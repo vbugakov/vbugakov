@@ -9,7 +9,7 @@ package ru.job4j;
 public class Calculate {
     /**
      * Method main.
-     * @param String[] args.
+     * @param args - arguments.
      */
     
     public static void main(String[] args) {
