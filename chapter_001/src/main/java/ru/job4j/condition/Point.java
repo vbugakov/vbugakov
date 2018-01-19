@@ -15,10 +15,10 @@ public class Point {
 
     /**
      * Constructor.
-     * @param x
-     * @param y
+     * @param x - x coordinate
+     * @param y - y coordinate
      */
-   public Point(int x, int y){
+   public Point(int x, int y) {
        this.x = x;
        this.y = y;
    }
@@ -28,11 +28,7 @@ public class Point {
      * @param that - object Point
      * @return distance to next point
      */
-   public double distanceTo (Point that){
-       System.out.println("this.x: " + this.x);
-       System.out.println("this.y: " + this.y);
-       System.out.println("that.x: " + that.x);
-       System.out.println("that.y: " + that.y);
+   public double distanceTo(Point that) {
        return Math.sqrt(Math.pow(this.x - that.x, 2) + Math.pow(this.y - that.y, 2));
    }
 }

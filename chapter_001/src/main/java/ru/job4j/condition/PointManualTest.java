@@ -16,19 +16,19 @@ public class PointManualTest {
      * y of point 1 {@value #Y1}
      * y of point 2 {@value #Y2}
      */
-    public static final int X1 = 1;//constant x of point 1
-    public static final int Y1 = 2;//constant y of point 1
-    public static final int X2 = 3;//constant x of point 2
-    public static final int Y2 = 4;//constant y of point 2
+    public static final int X1 = 1; //constant x of point 1
+    public static final int Y1 = 2; //constant y of point 1
+    public static final int X2 = 3; //constant x of point 2
+    public static final int Y2 = 4; //constant y of point 2
 
     /**
      * Method main - start point of a test.
      * @param args
      */
     public static void main(String[] args) {
-        Point a = new Point(X1,Y1);
-        Point b = new Point(X2,Y2);
-        System.out.println("Distance from a to b : "+ a.distanceTo(b));
+        Point a = new Point(X1, Y1);
+        Point b = new Point(X2, Y2);
+        System.out.println("Distance from a to b : " + a.distanceTo(b));
 
     }
 }
