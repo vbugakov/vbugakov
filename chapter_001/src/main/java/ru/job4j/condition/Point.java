@@ -33,6 +33,6 @@ public class Point {
        System.out.println("this.y: " + this.y);
        System.out.println("that.x: " + that.x);
        System.out.println("that.y: " + that.y);
-        return -1D;
+       return Math.sqrt(Math.pow(this.x - that.x, 2) + Math.pow(this.y - that.y, 2));
    }
 }

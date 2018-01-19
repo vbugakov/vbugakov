@@ -28,6 +28,7 @@ public class PointManualTest {
     public static void main(String[] args) {
         Point a = new Point(X1,Y1);
         Point b = new Point(X2,Y2);
-        a.distanceTo(b);
+        System.out.println("Distance from a to b : "+ a.distanceTo(b));
+
     }
 }
