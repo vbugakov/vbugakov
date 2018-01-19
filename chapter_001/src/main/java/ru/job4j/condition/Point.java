@@ -19,8 +19,18 @@ public class Point {
      * @param x
      * @param y
      */
-    public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+   public Point(int x, int y){
+       this.x = x;
+       this.y = y;
+   }
+
+    /**
+     * Method distanceTo.
+     * @author Viatcheslav Bugakov
+     * @param that - object Point
+     * @return distance to next point
+     */
+   public double distanceTo (Point that){
+        return -1D;
+   }
 }
