@@ -15,7 +15,6 @@ public class Point {
 
     /**
      * Constructor.
-     * @author Viatcheslav Bugakov
      * @param x
      * @param y
      */
@@ -26,11 +25,14 @@ public class Point {
 
     /**
      * Method distanceTo.
-     * @author Viatcheslav Bugakov
      * @param that - object Point
      * @return distance to next point
      */
    public double distanceTo (Point that){
+       System.out.println("this.x: " + this.x);
+       System.out.println("this.y: " + this.y);
+       System.out.println("that.x: " + that.x);
+       System.out.println("that.y: " + that.y);
         return -1D;
    }
 }
