@@ -17,4 +17,15 @@ public class Max {
     public int max(int first, int second) {
         return first < second ? second : first;
     }
+    /**
+     * method max - for three numbers
+     * solution of task 3.4. Максимум из трех чисел [#190]
+     * @param first - first number
+     * @param second - second number
+     * @param third - third
+     * @return  maximum from three numbers
+     */
+    public int max(int first, int second, int third) {
+        return max(first, max(second, third));
+    }
 }

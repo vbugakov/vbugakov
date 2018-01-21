@@ -14,7 +14,6 @@ import static org.junit.Assert.assertThat;
 
 public class MaxTest {
 
-
     @Test
     public void whenFirstLessSecond() {
         Max maximum = new Max();
@@ -22,4 +21,37 @@ public class MaxTest {
                 maximum.max(1, 2),
                 is(2));
     }
+
+    @Test
+    public void whenSecondLessFirst() {
+        Max maximum = new Max();
+        assertThat(
+                maximum.max(2, 1),
+                is(2));
+    }
+
+    @Test
+    public void whenFirstIsMaximumFromThree() {
+        Max maximum = new Max();
+        assertThat(
+                maximum.max(3, 2, 1),
+                is(3));
+    }
+
+    @Test
+    public void whenSecondIsMaximumFromThree() {
+        Max maximum = new Max();
+        assertThat(
+                maximum.max(2, 3, 1),
+                is(3));
+    }
+
+    @Test
+    public void whenThirdIsMaximumFromThree() {
+        Max maximum = new Max();
+        assertThat(
+                maximum.max(1, 2, 3),
+                is(3));
+    }
+
 }
