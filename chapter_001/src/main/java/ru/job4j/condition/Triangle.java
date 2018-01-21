@@ -1,4 +1,12 @@
 package ru.job4j.condition;
+/**
+ * Class Triangle - Realisation of Triangle witch contains three Points  with
+ * capability of calculate area, period and can show existence
+ * from task 3.3. Вычисление площади треугольника [#9461]
+ * @author Viatcheslav Bugakov
+ * @version $Id$
+ * @since 0.1
+ */
 
 public class Triangle {
     private Point a;
@@ -21,10 +29,10 @@ public class Triangle {
      * @param ab расстояние между точками a b
      * @param ac расстояние между точками a c
      * @param bc расстояние между точками b c
-     * @return Перимент.
+     * @return Полупериметр.
      */
     public double period(double ab, double ac, double bc) {
-        return -1;
+        return (ab + ac + bc) / 2;
     }
 
     /**
@@ -40,7 +48,7 @@ public class Triangle {
         double p = this.period(ab, ac, bc);
         if (this.exist(ab, ac, bc)) {
             // написать формулу для расчета площади треугольника.
-            //rsl = ...
+            rsl = Math.sqrt(p * (p - ab) * (p - ac) * (p - bc));
         }
         return rsl;
     }
@@ -53,9 +61,9 @@ public class Triangle {
      * @param ab Длина от точки a b.
      * @param ac Длина от точки a c.
      * @param bc Длина от точки b c.
-     * @return
+     * @return возможность построения
      */
     private boolean exist(double ab, double ac, double bc) {
-        return (ab+bc>ac)&&(ac+bc>ab)&&(ac+ab>bc);
+        return (ab + bc > ac) && (ac + bc > ab) && (ac + ab > bc);
     }
 }
