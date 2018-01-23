@@ -1,5 +1,5 @@
 /**
- * Package for Point task. Chapter 001 tasks.
+ * Package for tasks of Section 4. Conditional statement. Chapter 001 Basic syntax.
  *
  * @author Viatcheslav Bugakov
  * @version $Id$
