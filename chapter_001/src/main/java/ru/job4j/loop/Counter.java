@@ -13,9 +13,13 @@ public class Counter {
      * Method add
      * @param start - start of diapason
      * @param finish - last number of diapason
-     * @return total of all even numbers in diapason
+     * @return total total of all even numbers in diapason
      */
     public int add(int start, int finish){
-        return -1;
+        int total=0;
+        for (int i =start;i<=finish;i++)
+            if(i % 2 == 0) total += i;
+
+        return total;
     }
 }
