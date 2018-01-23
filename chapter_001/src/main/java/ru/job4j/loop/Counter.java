@@ -26,11 +26,13 @@ public class Counter {
      * @param finish - last number of diapason
      * @return field of class totalEvens
      */
-    public int add(int start, int finish){
-        if (start%2==0)
-            for(int i=start; i<=finish;i+=2) this.totalEvens+=i;
-        else
-            for(int i=start+1; i<=finish;i+=2) this.totalEvens+=i;
+    public int add(int start, int finish) {
+        if (start % 2 == 0) {
+            for (int i = start; i <= finish; i += 2) {
+                this.totalEvens += i; }
+        } else {
+            for (int i = start + 1; i <= finish; i += 2) {
+                this.totalEvens += i; } }
 
         return this.totalEvens;
     }
