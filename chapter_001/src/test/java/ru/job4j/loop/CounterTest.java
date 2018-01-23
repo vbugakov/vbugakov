@@ -16,12 +16,37 @@ public class CounterTest {
     /**
      * Test of method add .
      * Should return total of all even number in diapason.
+     * Start from 1 to 10
      */
     @Test
     public void whenDiapasonOneToTenThenThirty() {
         Counter count = new Counter();
         int result = count.add(1, 10);
         assertThat(result, is(30));
+    }
+
+    /**
+     * Test of method add .
+     * Should return total of all even number in diapason.
+     * Start from 2 to 11
+     */
+    @Test
+    public void whenDiapasonTwoToElevenThenThirty() {
+        Counter count = new Counter();
+        int result = count.add(2, 11);
+        assertThat(result, is(30));
+    }
+
+    /**
+     * Test of method add .
+     * Should return total of all even number in diapason.
+     * Start from 1 to 9
+     */
+    @Test
+    public void whenDiapasonOneToNineThenTwenty() {
+        Counter count = new Counter();
+        int result = count.add(1, 9);
+        assertThat(result, is(20));
     }
 
 

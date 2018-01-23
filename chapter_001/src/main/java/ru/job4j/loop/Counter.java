@@ -9,17 +9,29 @@ package ru.job4j.loop;
  */
 
 public class Counter {
+    private int totalEvens;
+
+    /**
+     * Constructor - initialises field totalEvens
+     *
+     */
+
+    public Counter() {
+        this.totalEvens = 0;
+    }
+
     /**
      * Method add
      * @param start - start of diapason
      * @param finish - last number of diapason
-     * @return total total of all even numbers in diapason
+     * @return field of class totalEvens
      */
     public int add(int start, int finish){
-        int total=0;
-        for (int i =start;i<=finish;i++)
-            if(i % 2 == 0) total += i;
+        if (start%2==0)
+            for(int i=start; i<=finish;i+=2) this.totalEvens+=i;
+        else
+            for(int i=start+1; i<=finish;i+=2) this.totalEvens+=i;
 
-        return total;
+        return this.totalEvens;
     }
 }
