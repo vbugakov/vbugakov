@@ -16,7 +16,14 @@ public class Factorial {
          * @return factorial of n
          */
         public int calc(int n) {
-            return -1;
+            int fact = 1;
+            if (n == 0) {
+                return fact;
+            } else {
+                for(int i=1; i<=n; i++) {
+                    fact*=i; }
+            }
+            return fact;
         }
     }
 
