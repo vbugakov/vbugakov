@@ -9,11 +9,13 @@ package ru.job4j.loop;
  */
 
 public class Counter {
-/**
- * Method add
- * @param start - start of diapason
- * @param finish - last number of diapason
- * @return total of all even numbers in diapason
- */
-
+    /**
+     * Method add
+     * @param start - start of diapason
+     * @param finish - last number of diapason
+     * @return total of all even numbers in diapason
+     */
+    public int add(int start, int finish){
+        return -1;
+    }
 }
