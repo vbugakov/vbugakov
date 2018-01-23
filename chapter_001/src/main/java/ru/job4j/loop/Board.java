@@ -23,7 +23,7 @@ public class Board {
     public String paint(int width, int height) {
         StringBuilder screen = new StringBuilder();
         String ln = System.lineSeparator();
-
+/*
         for ( ) {
             for ( ) {
                 // условие проверки, что писать пробел или X
@@ -37,6 +37,7 @@ public class Board {
                 // добавляем перевод на новую строку.
             screen.append(ln);
         }
+  */
         return screen.toString();
     }
 
