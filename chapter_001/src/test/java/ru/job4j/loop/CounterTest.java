@@ -13,6 +13,44 @@ import static org.junit.Assert.assertThat;
  */
 
 public class CounterTest {
+
+    /**
+     * Constants for stress testing of method add and add2
+     */
+    private static final int START = 1;
+    private static final int FINISH = 1000000000;
+
+    /**
+     * Test of method add (iterations reduced by 2) .
+     * BillionIterations watch the time.
+     */
+    @Test
+    public void stressTestAddBillionIterations() {
+        new Counter().add(START, FINISH);
+
+    }
+    /**
+     * Test of method add2 .
+     * BillionIterations watch the time.
+     */
+    @Test
+    public void stressTestAdd2BillionIterations() {
+        new Counter().add2(START, FINISH);
+
+    }
+
+    /**
+     * Test of method add2 .
+     * Should return total of all even number in diapason.
+     * Start from 1 to 10
+     */
+    @Test
+    public void whenAdd2DiapasonOneToTenThenThirty() {
+        Counter count = new Counter();
+        int result = count.add2(1, 10);
+        assertThat(result, is(30));
+    }
+
     /**
      * Test of method add .
      * Should return total of all even number in diapason.

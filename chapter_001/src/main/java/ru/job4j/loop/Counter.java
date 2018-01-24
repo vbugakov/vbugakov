@@ -36,4 +36,13 @@ public class Counter {
 
         return this.totalEvens;
     }
+
+    public int add2(int start, int finish) {
+        for (int i = start; i <= finish; i++) {
+            if (i % 2 == 0) {
+                this.totalEvens += i;
+            }
+        }
+        return this.totalEvens;
+    }
 }
