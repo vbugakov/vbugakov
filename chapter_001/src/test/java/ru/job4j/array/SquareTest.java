@@ -5,8 +5,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Class -  solution of task:
- *
+ * Class Square Test -  for testing methods of class Square:
+ * task: 5.0. Заполнить массив степенями чисел. [#33488]
  * @author Viatcheslav Bugakov
  * @version %Id%
  * @since 0.1
