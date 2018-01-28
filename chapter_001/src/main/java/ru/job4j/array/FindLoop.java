@@ -21,13 +21,12 @@ public class FindLoop {
 
         int rsl = -1; // если элемента нет в массиве, то возвращаем -1.
 
-//        for (...) {
-//            if (data[index] == el) {
-//                rsl = index;
-//
-//                break;
-//            }
-//        }
+        for (int index = 0; index < data.length; index++) {
+            if (data[index] == el) {
+                rsl = index;
+                break;
+            }
+        }
 
         return rsl;
     }
