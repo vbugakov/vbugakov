@@ -9,8 +9,7 @@ package ru.job4j.array;
  */
 public class Turn {
     /**
-     * method indexOf
-     * from 1 to bound
+     * method back
      * @param array -  array for turn
      * @return turned array.
      */
