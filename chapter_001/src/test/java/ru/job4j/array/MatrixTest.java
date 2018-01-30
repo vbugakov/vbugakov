@@ -17,14 +17,14 @@ public class MatrixTest {
      * Test for method multiple.
      * when size of matrix - 3
      * should return;
-     * 0 0 0
-     * 0 1 2
-     * 0 2 4
+     * 1 2 3
+     * 2 4 6
+     * 3 6 9
      */
     @Test
     public void whenMatrixSizeTwoThenMultiplyTable() {
         int[][] result = new Matrix().multiple(3);
-        int[][] expected = {{0, 0, 0}, {0, 1, 2}, {0, 2, 4}};
+        int[][] expected = {{1, 2, 3}, {2, 4, 6}, {3, 6, 9}};
         assertThat(result, is(expected));
     }
 }
