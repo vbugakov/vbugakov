@@ -31,7 +31,17 @@ public class CheckContainsTest {
      */
     @Test
     public void whenNoContainsThenFalse() {
-        assertThat(check.contains("Привет", "веи"), is(false));
+        assertThat(check.contains("Привит", "иве"), is(false));
+    }
+
+    /**
+     * Test for method contains.
+     * for origin = "Привет" and sub = "иве"
+     * should return true;
+     */
+    @Test
+    public void whenContainsVersionTwoThenTrue() {
+        assertThat(check.containsCheat("Привет", "иве"), is(true));
     }
 }
 
