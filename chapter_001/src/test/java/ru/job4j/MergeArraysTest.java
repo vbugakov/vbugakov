@@ -22,8 +22,8 @@ public class MergeArraysTest {
      */
     @Test
     public void whenTwoPresortedThenOneMergedSorted() {
-        int [] result = new MergeArrays().merge(new int[] {1, 2}, new int[] {3, 4});
-        int [] expected = {1, 2, 3, 4};
+        int[] result = new MergeArrays().merge(new int[] {1, 2}, new int[] {3, 4});
+        int[] expected = {1, 2, 3, 4};
         assertThat(result, is(expected));
     }
 }
