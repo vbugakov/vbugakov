@@ -35,7 +35,7 @@ public class CounterTest {
      */
     @Test
     public void stressTestAdd2BillionIterations() {
-        new Counter().add2(START, FINISH);
+        new Counter().addVersion(START, FINISH);
 
     }
 
@@ -47,7 +47,7 @@ public class CounterTest {
     @Test
     public void whenAdd2DiapasonOneToTenThenThirty() {
         Counter count = new Counter();
-        int result = count.add2(1, 10);
+        int result = count.addVersion(1, 10);
         assertThat(result, is(30));
     }
 

@@ -13,21 +13,20 @@ public class FindLoop {
      * method indexOf
      * from 1 to bound
      * @param data -  array for search
-     * @param el - value  for search
+     * @param element - value  for search
      * @return index of first founded element in array by value if not founded -1.
      */
 
-    public int indexOf(int[] data, int el) {
+    public int indexOf(int[] data, int element) {
 
-        int rsl = -1; // если элемента нет в массиве, то возвращаем -1.
+        int result = -1; // если элемента нет в массиве, то возвращаем -1.
 
         for (int index = 0; index < data.length; index++) {
-            if (data[index] == el) {
-                rsl = index;
+            if (data[index] == element) {
+                result = index;
                 break;
             }
         }
-
-        return rsl;
+       return result;
     }
 }

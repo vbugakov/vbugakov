@@ -19,9 +19,9 @@ public class ArrayDuplicate {
     public String[] remove(String[] array) {
         int unique = array.length;
         for (int i = 0; i < unique; i++) {
-            String valueToCompare = array[i];
+            String value = array[i];
             for (int j = i + 1; j < unique; j++) {
-                if (valueToCompare.equals(array[j])) {
+                if (value.equals(array[j])) {
                     array[j] = array[unique - 1];
                     unique--;
                     j--;

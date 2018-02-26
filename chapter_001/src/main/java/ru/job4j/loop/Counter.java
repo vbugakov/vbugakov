@@ -37,7 +37,13 @@ public class Counter {
         return this.totalEvens;
     }
 
-    public int add2(int start, int finish) {
+    /**
+     * Method addVersion
+     * @param start - start of diapason
+     * @param finish - last number of diapason
+     * @return field of class totalEvens (counts only evens)
+     */
+    public int addVersion(int start, int finish) {
         for (int i = start; i <= finish; i++) {
             if (i % 2 == 0) {
                 this.totalEvens += i;

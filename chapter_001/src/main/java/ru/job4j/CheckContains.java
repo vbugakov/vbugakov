@@ -1,6 +1,5 @@
 package ru.job4j;
 
-import java.util.Arrays;
 
 /**
  * Class CheckContains -  solution of task:
@@ -37,13 +36,11 @@ public class CheckContains {
         char[] subArray = sub.toLowerCase().toCharArray();
         for (int i = 0; i < originArray.length; i++) {
             if (originArray[i] == subArray[0] && i <= originArray.length - subArray.length) {
-
                 for (int j = 0, k = i; j < subArray.length; j++, k++) {
                     if (originArray[k] == subArray[j]) {
                         matches++;
                     }
                 }
-
                 if (matches == subArray.length) {
                     result = true;
                     break;
