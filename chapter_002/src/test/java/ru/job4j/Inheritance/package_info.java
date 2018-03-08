@@ -5,4 +5,4 @@
 * @version $Id$
 * @since 0.1
 */
-package job4j.Inheritance;
+package ru.job4j.Inheritance;
