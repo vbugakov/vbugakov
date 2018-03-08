@@ -1,4 +1,4 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class PatientTest {
 
     @Test
-    public void PatientToStringPlusInheritance() {
+    public void patientToStringPlusInheritance() {
         Patient patient = new Patient("Doe John");
         String result = patient.toString();
         String expected  = "Patient - Mr Doe John";
@@ -27,7 +27,7 @@ public class PatientTest {
     }
 
     @Test
-    public  void ThenPatientHealthyThenDiseaseNone() {
+    public  void thenPatientHealthyThenDiseaseNone() {
         Patient patient = new Patient("Doe John");
         String result = patient.getDisease();
         String expected  = "none";
@@ -35,8 +35,8 @@ public class PatientTest {
     }
 
     @Test
-    public  void ThenPatientSeekThenDisease() {
-        Patient patient = new Patient("Doe John","allergy");
+    public  void thenPatientSeekThenDisease() {
+        Patient patient = new Patient("Doe John", "allergy");
         String result = patient.getDisease();
         String expected  = "allergy";
         assertThat(result, is(expected));

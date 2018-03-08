@@ -1,4 +1,4 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 
 
@@ -17,7 +17,7 @@ public class Teacher extends  Profession {
         super(name);
     }
 
-    public Lesson teach(Student student){
+    public Lesson teach(Student student) {
         return new Lesson(this, student);
     }
 }

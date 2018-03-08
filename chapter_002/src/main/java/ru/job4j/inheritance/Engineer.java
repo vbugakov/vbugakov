@@ -1,4 +1,4 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 
 /**
@@ -12,11 +12,20 @@ package ru.job4j.Inheritance;
 
 public class Engineer extends  Profession {
 
+    /**
+     * Constructor
+     * @param name - name of engineer
+     */
     public Engineer(String name) {
         super(name);
     }
 
-   public Report build(House house){
+    /**
+     * methode build
+     * @param house - object of class House
+     * @return - object of class Report (Building report)
+     */
+   public Report build(House house) {
         return new Report(this, house);
     }
 }

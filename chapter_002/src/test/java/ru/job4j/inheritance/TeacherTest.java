@@ -1,4 +1,4 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 public class TeacherTest {
 
     @Test
-    public void TeacherToStringPlusInheritance() {
+    public void teacherToStringPlusInheritance() {
         Teacher teacher = new Teacher("John Doe");
         String result = teacher.toString();
         String expected = "Teacher - Mr John Doe";

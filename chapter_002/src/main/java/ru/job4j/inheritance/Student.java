@@ -1,4 +1,4 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 
 /**
@@ -19,7 +19,7 @@ public class Student extends  Subject {
         this.lessonTheme = "none";
     }
 
-    public  Student (String name, String lessonTheme) {
+    public  Student(String name, String lessonTheme) {
         super(name);
         this.lessonTheme = lessonTheme;
     }

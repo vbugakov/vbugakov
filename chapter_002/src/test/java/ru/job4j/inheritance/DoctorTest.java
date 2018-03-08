@@ -1,4 +1,4 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 
 import org.junit.Test;
@@ -8,7 +8,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Class ProfessionTest - for testing methods of class Profession
+ * Class DoctorTest - for testing methods of class Doctor
  * task: 1. Реализация профессий в коде [#6837]
  *
  * @author Viathceslav Bugakov
@@ -19,12 +19,12 @@ import static org.junit.Assert.assertTrue;
 public class DoctorTest {
 
     @Test
-    public void DoctorToStringPlusInheritance() {
-        Doctor doc = new Doctor("John Doe");
-        String result = doc.toString();
+    public void doctorToStringPlusInheritance() {
+        Doctor doctor = new Doctor("John Doe");
+        String result = doctor.toString();
         String expected = "Doctor - Mr John Doe";
         assertThat(result, is(expected));
-        assertTrue(doc instanceof Profession);
+        assertTrue(doctor instanceof Profession);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class DoctorTest {
 
     @Test
     public  void whenDoctorExamineDiseasedPatient() {
-        String result = new Doctor("John Doe").examine(new Patient("Rinaldo Rinaldini","Allergy")).toString();
+        String result = new Doctor("John Doe").examine(new Patient("Rinaldo Rinaldini", "Allergy")).toString();
         String expected = "Diagnosis:\r\nPatient - Mr Rinaldo Rinaldini is diseased by : Allergy\r\nExamined by:\r\nDoctor - Mr John Doe";
         assertThat(result, is(expected));
 

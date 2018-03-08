@@ -1,4 +1,4 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 /**
  * Class Report -  solution of task:
@@ -11,14 +11,26 @@ package ru.job4j.Inheritance;
 
 
 public class Report {
+    /**
+     * Fields of class
+     */
     private Engineer engineer;
     private House house;
 
-    public Report(Engineer engineer, House house){
+    /**
+     * Constructor
+     * @param engineer
+     * @param house
+     */
+    public Report(Engineer engineer, House house) {
         this.engineer = engineer;
         this.house = house;
     }
 
+    /**
+     * methode buildStageReport
+     * @return string by conditions
+     */
     private String buildStageReport() {
         StringBuilder sb = new StringBuilder();
         sb.append("Building report:");

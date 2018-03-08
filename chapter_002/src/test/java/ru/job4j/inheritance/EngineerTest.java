@@ -1,4 +1,4 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class EngineerTest {
 
     @Test
-    public void EngineerToStringPlusInheritance() {
+    public void engineerToStringPlusInheritance() {
         Engineer engineer = new Engineer("Doe John");
         String result = engineer.toString();
         String expected  = "Engineer - Mr Doe John";
@@ -29,17 +29,17 @@ public class EngineerTest {
     @Test
     public  void whenEngineerNotStartYetThenNotStarted() {
         String result = new Engineer("John Doe").build(new House("Baker Street 216, London")).toString();
-        String expected = "Building report:\r\nHouse On : Baker Street 216, London in condition: building not started\r\n" +
-                "Responsible:\r\nEngineer - Mr John Doe";
+        String expected = "Building report:\r\nHouse On : Baker Street 216, London in condition: building not started\r\n"
+                + "Responsible:\r\nEngineer - Mr John Doe";
         assertThat(result, is(expected));
 
     }
 
     @Test
     public  void whenEngineerStartToBuildThenShowingStage() {
-        String result = new Engineer("John Doe").build(new House("Baker Street 216, London","Basement")).toString();
-        String expected = "Building report:\r\nHouse On : Baker Street 216, London in condition: Building Basement\r\n" +
-                "Responsible:\r\nEngineer - Mr John Doe";
+        String result = new Engineer("John Doe").build(new House("Baker Street 216, London", "Basement")).toString();
+        String expected = "Building report:\r\nHouse On : Baker Street 216, London in condition: Building Basement\r\n"
+                + "Responsible:\r\nEngineer - Mr John Doe";
         assertThat(result, is(expected));
 
     }

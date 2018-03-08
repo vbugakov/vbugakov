@@ -1,4 +1,4 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 /**
  * Class Diagnose -  solution of task:
@@ -13,7 +13,7 @@ public class Diagnose {
     private Doctor doctor;
     private Patient patient;
 
-    public Diagnose(Doctor doctor,Patient patient){
+    public Diagnose(Doctor doctor, Patient patient) {
         this.doctor = doctor;
         this.patient = patient;
     }

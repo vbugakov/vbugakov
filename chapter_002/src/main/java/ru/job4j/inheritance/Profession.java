@@ -1,7 +1,7 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 /**
- * Class Subject -  solution of task:
+ * Class Profession -  solution of task:
  * 1. Реализация профессий в коде [#6837]
  *
  * @author Viathceslav Bugakov
@@ -9,7 +9,7 @@ package ru.job4j.Inheritance;
  * @since 0.1
  */
 
-public abstract class Subject {
+public abstract class Profession {
     /**
      * Fields of class
      */
@@ -20,17 +20,18 @@ public abstract class Subject {
      * @param name
      * sets a field of class - name when creates object
      */
-    public Subject(String name) {
+    public Profession(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
 
+    /**
+     * Overrided to string
+     * @return returns string by condition
+     */
     @Override
     public String toString() {
-        return getClass().getSimpleName()+" - Mr "+ name;
+        return getClass().getSimpleName() + " - Mr " + name;
     }
 
 }

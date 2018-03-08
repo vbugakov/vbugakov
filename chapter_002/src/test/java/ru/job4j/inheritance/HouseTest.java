@@ -1,4 +1,4 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 
 public class HouseTest {
     @Test
-    public void HouseToStringPlusInheritance() {
+    public void houseToStringPlusInheritance() {
         House house = new House("Baker street 216, London");
         String result = house.toString();
         String expected  = "House On : Baker street 216, London";
@@ -27,7 +27,7 @@ public class HouseTest {
     }
 
     @Test
-    public  void ThenHouseNotStartedThenProjected() {
+    public  void thenHouseNotStartedThenProjected() {
         House house = new House("Baker street 216, London");
         String result = house.getStage();
         String expected  = "project";
@@ -35,8 +35,8 @@ public class HouseTest {
     }
 
     @Test
-    public  void ThenHouseStartedThenShowStage() {
-        House house = new House("Baker street 216, London","Basement");
+    public  void thenHouseStartedThenShowStage() {
+        House house = new House("Baker street 216, London", "Basement");
         String result = house.getStage();
         String expected  = "Basement";
         assertThat(result, is(expected));

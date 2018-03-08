@@ -1,4 +1,4 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 /**
  * Class Patient -  solution of task:
@@ -11,18 +11,35 @@ package ru.job4j.Inheritance;
 
 public class Patient extends  Subject {
 
+    /**
+     * Fields of class
+     */
     private String disease;
 
+    /**
+     * constructor
+     * @param name - patient name
+     * also set field disease by default (healthy)
+     */
     public Patient(String name) {
         super(name);
         this.disease = "none";
     }
 
-    public  Patient (String name, String disease) {
+    /**
+     * Overloaded Constructor
+     * @param name - name of patient
+     * @param disease - name of disease
+     */
+    public  Patient(String name, String disease) {
         super(name);
         this.disease = disease;
     }
 
+    /**
+     * Getter
+     * @return return disease
+     */
     public  String getDisease() {
         return disease;
     }

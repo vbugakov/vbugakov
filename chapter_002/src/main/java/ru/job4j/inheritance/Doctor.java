@@ -1,4 +1,4 @@
-package ru.job4j.Inheritance;
+package ru.job4j.inheritance;
 
 /**
  * Class Doctor -  solution of task:
@@ -11,11 +11,11 @@ package ru.job4j.Inheritance;
 
 public class Doctor extends Profession {
 
-    public  Doctor(String name){
+    public  Doctor(String name) {
         super(name);
     }
 
-    public Diagnose examine (Patient patient) {
+    public Diagnose examine(Patient patient) {
         return new Diagnose(this, patient);
     }
 
