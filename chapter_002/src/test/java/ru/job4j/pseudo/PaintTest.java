@@ -1,6 +1,8 @@
 package ru.job4j.pseudo;
 
 import org.junit.Test;
+import org.junit.Before;
+import org.junit.After;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -27,19 +29,30 @@ public class PaintTest {
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-    private void outputToMemory() {
+
+
+    /**
+     * Before tests
+     */
+    @Before
+    public void outputToMemory() {
         System.setOut(new PrintStream(this.out));
     }
-    private void outputToConsole() {
+
+    /**
+     * After Tests
+     */
+    @After
+    public void outputToConsole() {
         System.setOut(stdout);
     }
+
     /**
      * Draw a square
      */
     @Test
     public void whenDrawSquare() {
 
-        outputToMemory();
         new Paint().draw(new Square());
             assertThat(new String(out.toByteArray()),
                 is(
@@ -55,7 +68,6 @@ public class PaintTest {
                                 .toString()
                 )
         );
-        outputToConsole();
     }
 
     /**
@@ -64,7 +76,6 @@ public class PaintTest {
 
     @Test
     public void whenDrawTriangle() {
-        outputToMemory();
         new Paint().draw(new Triangle());
         assertThat(new String(out.toByteArray()),
                 is(
@@ -78,6 +89,5 @@ public class PaintTest {
                                 .toString()
                 )
         );
-        outputToConsole();
     }
 }
