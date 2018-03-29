@@ -12,7 +12,7 @@ import java.io.PrintStream;
 /**
  * Class PaintTest - for testing methods of class Paint
  * task: 4. Используя шаблон проектирования - стратегию [#786]
- * and 5. Рефакторинг теста @Before @After [#33568]
+ * and: 5. Рефакторинг теста @Before @After [#33568]
  *
  * @author Viathceslav Bugakov
  * @version %Id%
