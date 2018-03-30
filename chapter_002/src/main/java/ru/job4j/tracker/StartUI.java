@@ -1,6 +1,6 @@
 package ru.job4j.tracker;
 
-import java.time.LocalDate;
+
 
 /**
  * Class StartUI -  solution of task:
@@ -20,7 +20,7 @@ public class StartUI {
      * 2. Edit item
      * 3. Delete item
      * 4. Find item by Id
-     * 5. Find items by name
+     * 5. Find item by name
      * 6. Exit Program
      */
     private static final String ADD = "0";
@@ -105,7 +105,7 @@ public class StartUI {
             String newdesc = this.input.ask("Введите новое описание заявки :");
             Item newitem = new Item(newname, newdesc, System.currentTimeMillis());
             tracker.replace(findedItems[0].getId(), newitem);
-            System.out.println("Заявка с ID : " + newitem.getId() + " изменена Имя : " + newitem.getName()
+            System.out.println("Заявка с ID : " + newitem.getId() + " изменена - Имя : " + newitem.getName()
                     + " Описание : " + newitem.getDescription());
         } else {
             System.out.println("Заявка с таким именем не найдена.");

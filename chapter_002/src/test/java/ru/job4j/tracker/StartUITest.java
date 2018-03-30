@@ -1,9 +1,14 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
+import org.junit.Before;
+import org.junit.After;
+
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import java.io.PrintStream;
+import java.io.ByteArrayOutputStream;
 
 /**
  * Class StartUITest - for testing methods of class StartUI
@@ -16,47 +21,336 @@ import static org.junit.Assert.assertThat;
  * @since 0.1
  */
 
-/**
- * Constants of class for menu items
- * 0. Add new Item
- * 2. Edit item
- * 3. Delete item
- * 6. Exit Program
- */
+
 public class StartUITest {
+    /**
+     * Class fields:
+     * stdout - standard output (to console)
+     * out - output to memory
+     */
+
+    private String menu = showMenu();
+
+
+    private final PrintStream stdout = System.out;
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
     /**
-     * test for Add new item
-     * Метод реализует добавленяи новый заявки в хранилище.
+     * Before tests
+     */
+    @Before
+    public void outputToMemory() {
+        System.setOut(new PrintStream(this.out));
+    }
+
+    /**
+     * After Tests
+     */
+    @After
+    public void outputToConsole() {
+        System.setOut(stdout);
+    }
+    /**
+     * Case:
+     * 0. Добавить заявку.
+     * проверка вывода
      */
 
     @Test
-    public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
+    public void whenAddItemOutput() {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getName(), is("test name"));
+        assertThat(new String(out.toByteArray()), is(resultAddItem(tracker)));
     }
 
+    /**
+     * Case:
+     * 2. Отредакировать заявку.
+     * проверка вывода
+     */
     @Test
-    public void whenUpdateThenTrackerHasUpdatedValue() {
+    public void whenEditPresentItemOutput() {
         Tracker tracker = new Tracker();
-        Item item = tracker.add(new Item("name", "description", System.currentTimeMillis()));
+        String nameToFind = "name";
+        StringBuilder expected = new StringBuilder();
+        Item item = tracker.add(new Item(nameToFind, "description", System.currentTimeMillis()));
+        expected.append(resultEditHead(tracker, nameToFind));
         Input input = new StubInput(new String[]{"2", item.getName(), "test name", "desc", "6"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findById(item.getId()).getName(), is("test name"));
+        expected.append(resultEditTail(tracker, "test name", item.getId()));
+        assertThat(new String(out.toByteArray()), is(expected.toString()));
     }
 
     @Test
-    public void whenDeleteItemThenTrackerSizeReducedBy1() {
+    public void whenEditNonPresentItemOutput() {
         Tracker tracker = new Tracker();
-        for (int i = 0; i < 3; i++) {
-            tracker.add(new Item("name" + i, "description", System.currentTimeMillis()));
-        }
-        int expected = tracker.findAll().length - 1;
-        Input input = new StubInput(new String[]{"3", tracker.findByName("name1")[0].getId(), "6"});
+        String nameToFind = "name";
+        StringBuilder expected = new StringBuilder();
+        Item item = tracker.add(new Item("namename", "description", System.currentTimeMillis()));
+        expected.append(resultEditHead(tracker, nameToFind));
+        Input input = new StubInput(new String[]{"2", nameToFind, "6"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll().length, is(expected));
+        expected.append(resultEditTail(tracker, nameToFind, item.getId()));
+        assertThat(new String(out.toByteArray()), is(expected.toString()));
+    }
+
+    /**
+     * Case:
+     * 3. Удалить заявку.
+     * проверка вывода
+     */
+    @Test
+    public void whenPresentItemDeletionOutput() {
+
+        Tracker tracker = createFilledTracker(3, false, "name");
+        String preyID = tracker.findByName("name1")[0].getId();
+        String preyName = tracker.findByName("name1")[0].getName();
+        String preyDesc = tracker.findByName("name1")[0].getDescription();
+        Input input = new StubInput(new String[]{"3", preyID, "6"});
+        new StartUI(input, tracker).init();
+        assertThat(new String(out.toByteArray()), is(resultDoneDelete(preyID, preyName, preyDesc)));
+    }
+
+    @Test
+    public void whenNonPresentItemDeletionOutput() {
+
+        Tracker tracker = createFilledTracker(3, false, "name");
+        String preyID = "11111111";
+        Input input = new StubInput(new String[]{"3", preyID, "6"});
+        new StartUI(input, tracker).init();
+        assertThat(new String(out.toByteArray()), is(resultFalseDelete()));
+    }
+
+    /**
+     * Case:
+     * 1.Показать все заявки
+     * проверка вывода
+     */
+    @Test
+    public void whenShowAllItemsOutput() {
+        Tracker tracker = createFilledTracker(3, false, "name");
+        Input input = new StubInput(new String[]{"1", "6"});
+        new StartUI(input, tracker).init();
+        assertThat(new String(out.toByteArray()), is(resultShowAll(tracker)));
+    }
+
+    /**
+     * Case:
+     * 5. Найти заявку по имени
+     * проверка вывода
+     */
+    @Test
+    public void whenFindItemByNameMultipleItemsOutput() {
+        String nameToFind = "Name";
+        Tracker tracker = createFilledTracker(4, true, nameToFind);
+        Input input = new StubInput(new String[]{"5", nameToFind, "6"});
+
+        new StartUI(input, tracker).init();
+        assertThat(new String(out.toByteArray()), is(resultFindByName(tracker, nameToFind)));
+    }
+
+    @Test
+    public void whenFindItemByNameOneItemOutput() {
+        String nameToFind = "Name";
+        Tracker tracker = createFilledTracker(2, true, nameToFind);
+        Input input = new StubInput(new String[]{"5", nameToFind, "6"});
+
+        new StartUI(input, tracker).init();
+        assertThat(new String(out.toByteArray()), is(resultFindByName(tracker, nameToFind)));
+    }
+
+    @Test
+    public void whenFindItemByNameNonPresentOutput() {
+
+        Tracker tracker = createFilledTracker(6, true, "Name");
+        String nameToFind = "Test Name";
+        Input input = new StubInput(new String[]{"5", nameToFind, "6"});
+
+        new StartUI(input, tracker).init();
+        assertThat(new String(out.toByteArray()), is(resultFindByName(tracker, nameToFind)));
+    }
+
+    /**
+     * Case:
+     * 4.Найти заявку по ключу
+     * проверка вывода
+     */
+    @Test
+    public void whenFindPresentItemByIdOutput() {
+        Tracker tracker = createFilledTracker(3, false, "name");
+        String id = tracker.findAll()[1].getId();
+        Input input = new StubInput(new String[]{"4", id, "6"});
+        new StartUI(input, tracker).init();
+        assertThat(new String(out.toByteArray()), is(resultFindById(tracker, id)));
+    }
+
+    @Test
+    public void whenFindNonPresentItemsByIdOutput() {
+        Tracker tracker = createFilledTracker(3, false, "name");
+        String id = "111111";
+        Input input = new StubInput(new String[]{"4", id, "6"});
+        new StartUI(input, tracker).init();
+        assertThat(new String(out.toByteArray()), is(resultFindById(tracker, id)));
+    }
+
+    /**
+     * Service methods for result for build up
+     * testing output
+     *
+     */
+    private String resultAddItem(Tracker tracker) {
+        StringBuilder result = new StringBuilder();
+        result.append(menu);
+        result.append("------------ Добавление новой заявкики --------------");
+        result.append(System.lineSeparator());
+        result.append("------------ Новая заявка с getId : " + tracker.findAll()[0].getId() + "-----------");
+        result.append(System.lineSeparator());
+        result.append(menu);
+        return result.toString();
+    }
+    private String resultShowAll(Tracker tracker) {
+        StringBuilder result = new StringBuilder();
+        result.append(menu)
+              .append("------------ Список всех заявок --------------")
+              .append(System.lineSeparator())
+              .append("Ключ | Имя | Описание")
+              .append(System.lineSeparator());
+        for (Item item : tracker.findAll()) {
+           result.append(item.getId() + " | " + item.getName() + " | " + item.getDescription());
+           result.append(System.lineSeparator());
+        }
+        result.append("------------ Конец списка -----------")
+              .append(System.lineSeparator())
+              .append(menu);
+        return result.toString();
+    }
+    private String resultEditHead(Tracker tracker, String name) {
+        StringBuilder result = new StringBuilder();
+        result.append(menu);
+        result.append("------------ Редактирование заявкики --------------");
+        result.append(System.lineSeparator());
+        Item[] findedItems = tracker.findByName(name);
+        if (findedItems.length > 0) {
+            result.append("Заявка найдена ID :" + findedItems[0].getId() + " Имя :" + findedItems[0].getName()
+                    + " Описание : " + findedItems[0].getDescription());
+            result.append(System.lineSeparator());
+        } else {
+            result.append("Заявка с таким именем не найдена.");
+            result.append(System.lineSeparator());
+        }
+        return result.toString();
+    }
+    private String resultEditTail(Tracker tracker, String name, String id) {
+        StringBuilder result = new StringBuilder();
+        if (tracker.findById(id).getName().equals(name)) {
+            result.append("Заявка с ID : " + tracker.findByName(name)[0].getId() + " изменена - Имя : " + tracker.findByName(name)[0].getName()
+                    + " Описание : " + tracker.findByName(name)[0].getDescription());
+            result.append(System.lineSeparator());
+        }
+        result.append(menu);
+        return result.toString();
+    }
+    private String resultDoneDelete(String id, String name, String desc) {
+        StringBuilder result = new StringBuilder();
+        result.append(menu);
+        result.append("------------ Удаление Заявки --------------");
+        result.append(System.lineSeparator());
+        result.append("Заявка успешно удалена Ключ :" + id + " Имя :" + name
+                    + " Описание : " + desc);
+        result.append(System.lineSeparator());
+        result.append(menu);
+        return result.toString();
+    }
+    private String resultFalseDelete() {
+        StringBuilder result = new StringBuilder();
+        result.append(menu);
+        result.append("------------ Удаление Заявки --------------");
+        result.append(System.lineSeparator());
+        result.append("Заявка с таким ключом не найдена.");
+        result.append(System.lineSeparator());
+        result.append(menu);
+        return result.toString();
+    }
+    private String resultFindById(Tracker tracker, String id) {
+        StringBuilder result = new StringBuilder();
+        result.append(menu);
+        result.append("------------ Поиск заявки по ключу --------------");
+        result.append(System.lineSeparator());
+        if (tracker.findById(id) != null) {
+            result.append("Заявка успешно найдена Ключ :" + tracker.findById(id).getId()
+                    + " Имя :" + tracker.findById(id).getName()
+                    + " Описание : " + tracker.findById(id).getDescription());
+            result.append(System.lineSeparator());
+        } else {
+            result.append("Заявка с таким ключом не найдена.");
+            result.append(System.lineSeparator());
+        }
+        result.append(menu);
+        return  result.toString();
+    }
+    private String resultFindByName(Tracker tracker, String name) {
+        StringBuilder result = new StringBuilder();
+        Item[] findedItems = tracker.findByName(name);
+        result.append(menu);
+        result.append("------------ Поиск заявки по имени --------------");
+        result.append(System.lineSeparator());
+
+        if (findedItems.length > 0) {
+            if (findedItems.length == 1) {
+                result.append("Заявка найдена Ключ :" + findedItems[0].getId() + " Имя :" + findedItems[0].getName()
+                        + " Описание : " + findedItems[0].getDescription());
+                result.append(System.lineSeparator());
+            }
+            if (findedItems.length > 1) {
+                result.append("Найдено " + findedItems.length + " заявок :");
+                result.append(System.lineSeparator());
+                result.append("Ключ | Имя | Описание");
+                result.append(System.lineSeparator());
+                for (Item item : findedItems) {
+                    result.append(item.getId() + " | " + item.getName() + " | " + item.getDescription());
+                    result.append(System.lineSeparator());
+                }
+            }
+        } else {
+            result.append("Заявка с таким именем не найдена.");
+            result.append(System.lineSeparator());
+        }
+        result.append(menu);
+        return result.toString();
+    }
+    private Tracker createFilledTracker(int size, boolean condition, String name) {
+        Tracker tracker = new Tracker();
+        if (condition) {
+            for (int i = 0; i < size; i++) {
+                if (i % 2 == 0) {
+                    tracker.add(new Item(name, "description", System.currentTimeMillis()));
+                } else {
+                    tracker.add(new Item(name + i, "description", System.currentTimeMillis()));
+                }
+
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                tracker.add(new Item(name + i, "description", System.currentTimeMillis()));
+            }
+
+        }
+        return tracker;
+    }
+    private String showMenu() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Меню.")
+            .append(System.lineSeparator())
+            .append("0. Добавить заявку.\n")
+            .append("1. Показать все заявки.\n")
+            .append("2. Отредакировать заявку.\n")
+            .append("3. Удалить заявку.\n")
+            .append("4. Найти заявку по ключу.\n")
+            .append("5. Найти заявку по имени.\n")
+            .append("6. Выйти из программы.")
+            .append(System.lineSeparator());
+        return sb.toString();
     }
 
 
