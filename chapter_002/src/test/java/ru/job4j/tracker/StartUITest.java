@@ -61,7 +61,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
         new StartUI(input, tracker).init();
-        assertThat(new String(out.toByteArray()), is(resultAddItem(tracker)));
+        assertThat(out.toString(), is(resultAddItem(tracker)));
     }
 
     /**
@@ -79,7 +79,7 @@ public class StartUITest {
         Input input = new StubInput(new String[]{"2", item.getName(), "test name", "desc", "6"});
         new StartUI(input, tracker).init();
         expected.append(resultEditTail(tracker, "test name", item.getId()));
-        assertThat(new String(out.toByteArray()), is(expected.toString()));
+        assertThat(out.toString(), is(expected.toString()));
     }
 
     @Test
@@ -109,7 +109,7 @@ public class StartUITest {
         String preyDesc = tracker.findByName("name1")[0].getDescription();
         Input input = new StubInput(new String[]{"3", preyID, "6"});
         new StartUI(input, tracker).init();
-        assertThat(new String(out.toByteArray()), is(resultDoneDelete(preyID, preyName, preyDesc)));
+        assertThat(out.toString(), is(resultDoneDelete(preyID, preyName, preyDesc)));
     }
 
     @Test
@@ -119,7 +119,7 @@ public class StartUITest {
         String preyID = "11111111";
         Input input = new StubInput(new String[]{"3", preyID, "6"});
         new StartUI(input, tracker).init();
-        assertThat(new String(out.toByteArray()), is(resultFalseDelete()));
+        assertThat(out.toString(), is(resultFalseDelete()));
     }
 
     /**
@@ -132,7 +132,7 @@ public class StartUITest {
         Tracker tracker = createFilledTracker(3, false, "name");
         Input input = new StubInput(new String[]{"1", "6"});
         new StartUI(input, tracker).init();
-        assertThat(new String(out.toByteArray()), is(resultShowAll(tracker)));
+        assertThat(out.toString(), is(resultShowAll(tracker)));
     }
 
     /**
@@ -147,7 +147,7 @@ public class StartUITest {
         Input input = new StubInput(new String[]{"5", nameToFind, "6"});
 
         new StartUI(input, tracker).init();
-        assertThat(new String(out.toByteArray()), is(resultFindByName(tracker, nameToFind)));
+        assertThat(out.toString(), is(resultFindByName(tracker, nameToFind)));
     }
 
     @Test
@@ -157,7 +157,7 @@ public class StartUITest {
         Input input = new StubInput(new String[]{"5", nameToFind, "6"});
 
         new StartUI(input, tracker).init();
-        assertThat(new String(out.toByteArray()), is(resultFindByName(tracker, nameToFind)));
+        assertThat(out.toString(), is(resultFindByName(tracker, nameToFind)));
     }
 
     @Test
@@ -168,7 +168,7 @@ public class StartUITest {
         Input input = new StubInput(new String[]{"5", nameToFind, "6"});
 
         new StartUI(input, tracker).init();
-        assertThat(new String(out.toByteArray()), is(resultFindByName(tracker, nameToFind)));
+        assertThat(out.toString(), is(resultFindByName(tracker, nameToFind)));
     }
 
     /**
@@ -182,7 +182,7 @@ public class StartUITest {
         String id = tracker.findAll()[1].getId();
         Input input = new StubInput(new String[]{"4", id, "6"});
         new StartUI(input, tracker).init();
-        assertThat(new String(out.toByteArray()), is(resultFindById(tracker, id)));
+        assertThat(out.toString(), is(resultFindById(tracker, id)));
     }
 
     @Test
@@ -191,7 +191,7 @@ public class StartUITest {
         String id = "111111";
         Input input = new StubInput(new String[]{"4", id, "6"});
         new StartUI(input, tracker).init();
-        assertThat(new String(out.toByteArray()), is(resultFindById(tracker, id)));
+        assertThat(out.toString(), is(resultFindById(tracker, id)));
     }
 
     /**
