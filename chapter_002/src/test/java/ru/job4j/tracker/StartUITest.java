@@ -9,6 +9,9 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import java.io.PrintStream;
 import java.io.ByteArrayOutputStream;
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Class StartUITest - for testing methods of class StartUI
@@ -204,7 +207,7 @@ public class StartUITest {
         result.append(menu);
         result.append("------------ Добавление новой заявкики --------------");
         result.append(System.lineSeparator());
-        result.append("------------ Новая заявка с getId : " + tracker.findAll()[0].getId() + "-----------");
+        result.append(String.format("------------ Новая заявка с getId : %s -----------", tracker.findAll()[0].getId()));
         result.append(System.lineSeparator());
         result.append(menu);
         return result.toString();
@@ -217,7 +220,7 @@ public class StartUITest {
               .append("Ключ | Имя | Описание")
               .append(System.lineSeparator());
         for (Item item : tracker.findAll()) {
-           result.append(item.getId() + " | " + item.getName() + " | " + item.getDescription());
+           result.append(String.format("%s | %s | %s", item.getId(), item.getName(), item.getDescription()));
            result.append(System.lineSeparator());
         }
         result.append("------------ Конец списка -----------")
@@ -232,8 +235,8 @@ public class StartUITest {
         result.append(System.lineSeparator());
         Item[] findedItems = tracker.findByName(name);
         if (findedItems.length > 0) {
-            result.append("Заявка найдена ID :" + findedItems[0].getId() + " Имя :" + findedItems[0].getName()
-                    + " Описание : " + findedItems[0].getDescription());
+            result.append(String.format("Заявка найдена ID : %s Имя : %s Описание : %s ",
+                    findedItems[0].getId(), findedItems[0].getName(), findedItems[0].getDescription()));
             result.append(System.lineSeparator());
         } else {
             result.append("Заявка с таким именем не найдена.");
@@ -256,8 +259,7 @@ public class StartUITest {
         result.append(menu);
         result.append("------------ Удаление Заявки --------------");
         result.append(System.lineSeparator());
-        result.append("Заявка успешно удалена Ключ :" + id + " Имя :" + name
-                    + " Описание : " + desc);
+        result.append(String.format("Заявка успешно удалена. Ключ : %s Имя : %s Описание : %s", id, name, desc));
         result.append(System.lineSeparator());
         result.append(menu);
         return result.toString();
@@ -278,9 +280,8 @@ public class StartUITest {
         result.append("------------ Поиск заявки по ключу --------------");
         result.append(System.lineSeparator());
         if (tracker.findById(id) != null) {
-            result.append("Заявка успешно найдена Ключ :" + tracker.findById(id).getId()
-                    + " Имя :" + tracker.findById(id).getName()
-                    + " Описание : " + tracker.findById(id).getDescription());
+            result.append(String.format("Заявка успешно найдена. Ключ : %s Имя : %s Описание : %s",
+                    tracker.findById(id).getId(), tracker.findById(id).getName(), tracker.findById(id).getDescription()));
             result.append(System.lineSeparator());
         } else {
             result.append("Заявка с таким ключом не найдена.");
@@ -298,17 +299,17 @@ public class StartUITest {
 
         if (findedItems.length > 0) {
             if (findedItems.length == 1) {
-                result.append("Заявка найдена Ключ :" + findedItems[0].getId() + " Имя :" + findedItems[0].getName()
-                        + " Описание : " + findedItems[0].getDescription());
+                result.append(String.format("Заявка найдена. Ключ: %s Имя: %s Описание: %s",
+                        findedItems[0].getId(), findedItems[0].getName(), findedItems[0].getDescription()));
                 result.append(System.lineSeparator());
             }
             if (findedItems.length > 1) {
-                result.append("Найдено " + findedItems.length + " заявок :");
+                result.append(String.format("Найдено %s заявок :", findedItems.length));
                 result.append(System.lineSeparator());
                 result.append("Ключ | Имя | Описание");
                 result.append(System.lineSeparator());
                 for (Item item : findedItems) {
-                    result.append(item.getId() + " | " + item.getName() + " | " + item.getDescription());
+                    result.append(String.format("%s | %s | %s", item.getId(), item.getName(), item.getDescription()));
                     result.append(System.lineSeparator());
                 }
             }

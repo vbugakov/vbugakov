@@ -86,7 +86,7 @@ public class StartUI {
         String desc = this.input.ask("Введите описание заявки :");
         Item item = new Item(name, desc, System.currentTimeMillis());
         this.tracker.add(item);
-        System.out.println("------------ Новая заявка с getId : " + item.getId() + "-----------");
+        System.out.printf("------------ Новая заявка с getId : %s -----------%n", item.getId());
 
     }
 
@@ -99,14 +99,14 @@ public class StartUI {
         String name = this.input.ask("Введите имя заявки, которую хотите отредактировать :");
         Item[] findedItems = tracker.findByName(name);
         if (findedItems.length > 0) {
-            System.out.println("Заявка найдена ID :" + findedItems[0].getId() + " Имя :" + findedItems[0].getName()
-                    + " Описание : " + findedItems[0].getDescription());
+            System.out.printf("Заявка найдена ID : %s Имя : %s Описание : %s %n",
+                    findedItems[0].getId(), findedItems[0].getName(), findedItems[0].getDescription());
             String newname = this.input.ask("Введите новое имя заявки :");
             String newdesc = this.input.ask("Введите новое описание заявки :");
             Item newitem = new Item(newname, newdesc, System.currentTimeMillis());
             tracker.replace(findedItems[0].getId(), newitem);
-            System.out.println("Заявка с ID : " + newitem.getId() + " изменена - Имя : " + newitem.getName()
-                    + " Описание : " + newitem.getDescription());
+            System.out.printf("Заявка с ID : %s изменена - Имя : %s Описание : %s%n",
+                    newitem.getId(), newitem.getName(),  newitem.getDescription());
         } else {
             System.out.println("Заявка с таким именем не найдена.");
         }
@@ -119,7 +119,7 @@ public class StartUI {
         System.out.println("------------ Список всех заявок --------------");
         System.out.println("Ключ | Имя | Описание");
         for (Item item : tracker.findAll()) {
-            System.out.println(item.getId() + " | " + item.getName() + " | " + item.getDescription());
+            System.out.printf("%s | %s | %s%n", item.getId(), item.getName(), item.getDescription());
         }
         System.out.println("------------ Конец списка -----------");
     }
@@ -133,8 +133,8 @@ public class StartUI {
        if (tracker.findById(id) != null) {
            Item prey = tracker.findById(id);
            tracker.delete(id);
-           System.out.println("Заявка успешно удалена Ключ :" + prey.getId() + " Имя :" + prey.getName()
-                   + " Описание : " + prey.getDescription());
+           System.out.printf("Заявка успешно удалена. Ключ : %s Имя : %s Описание : %s%n",
+                   prey.getId(), prey.getName(), prey.getDescription());
        } else {
            System.out.println("Заявка с таким ключом не найдена.");
        }
@@ -147,9 +147,8 @@ public class StartUI {
         System.out.println("------------ Поиск заявки по ключу --------------");
         String id = this.input.ask("Введите  ключ заявки, которую хотите найти :");
         if (tracker.findById(id) != null) {
-            System.out.println("Заявка успешно найдена Ключ :" + tracker.findById(id).getId()
-                    + " Имя :" + tracker.findById(id).getName()
-                    + " Описание : " + tracker.findById(id).getDescription());
+            System.out.printf("Заявка успешно найдена. Ключ : %s Имя : %s Описание : %s%n",
+                    tracker.findById(id).getId(), tracker.findById(id).getName(), tracker.findById(id).getDescription());
         } else {
             System.out.println("Заявка с таким ключом не найдена.");
         }
@@ -164,14 +163,14 @@ public class StartUI {
         Item[] findedItems = tracker.findByName(name);
         if (findedItems.length > 0) {
             if (findedItems.length == 1) {
-                System.out.println("Заявка найдена Ключ :" + findedItems[0].getId() + " Имя :" + findedItems[0].getName()
-                        + " Описание : " + findedItems[0].getDescription());
+                System.out.printf("Заявка найдена. Ключ: %s Имя: %s Описание: %s%n",
+                        findedItems[0].getId(), findedItems[0].getName(), findedItems[0].getDescription());
             }
             if (findedItems.length > 1) {
-                System.out.println("Найдено " + findedItems.length + " заявок :");
+                System.out.printf("Найдено %s заявок :%n", findedItems.length);
                 System.out.println("Ключ | Имя | Описание");
                 for (Item item : findedItems) {
-                    System.out.println(item.getId() + " | " + item.getName() + " | " + item.getDescription());
+                    System.out.printf("%s | %s | %s%n", item.getId(), item.getName(), item.getDescription());
                 }
             }
         } else {
@@ -182,16 +181,18 @@ public class StartUI {
 
 
     private void showMenu() {
-
-        System.out.println("Меню.");
-        System.out.println("0. Добавить заявку.\n"
-                + "1. Показать все заявки.\n"
-                + "2. Отредакировать заявку.\n"
-                + "3. Удалить заявку.\n"
-                + "4. Найти заявку по ключу.\n"
-                + "5. Найти заявку по имени.\n"
-                + "6. Выйти из программы.");
-
+        StringBuilder sb = new StringBuilder();
+        sb.append("Меню.")
+                .append(System.lineSeparator())
+                .append("0. Добавить заявку.\n")
+                .append("1. Показать все заявки.\n")
+                .append("2. Отредакировать заявку.\n")
+                .append("3. Удалить заявку.\n")
+                .append("4. Найти заявку по ключу.\n")
+                .append("5. Найти заявку по имени.\n")
+                .append("6. Выйти из программы.")
+                .append(System.lineSeparator());
+        System.out.print(sb.toString());
     }
 
     private void showErrorMessage() {
