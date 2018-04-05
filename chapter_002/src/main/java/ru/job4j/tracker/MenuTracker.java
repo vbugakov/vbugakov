@@ -1,6 +1,8 @@
 package ru.job4j.tracker;
 
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 /**
  * Class MenuTracker -  solution of task:
@@ -12,7 +14,7 @@ package ru.job4j.tracker;
  */
 
 public class MenuTracker {
-    public static final int MENUSIZE = 7;
+    private static final int MENUSIZE = 7;
     public static final String MENUFORMAT = "%s. %s.%n";
     private Tracker tracker;
     private Input input;
@@ -30,6 +32,17 @@ public class MenuTracker {
     public boolean getExit() {
         return  this.exit;
     }
+    public int[] getMenuRange() {
+        int resultIndex = 0;
+        int[] resultArray = new int[actions.length];
+        for (int i = 0; i < actions.length; i++) {
+           try {
+               resultArray[resultIndex] = actions[i].key();
+               resultIndex++;
+           } catch (NullPointerException e) { }
+        }
+        return Arrays.copyOf(resultArray, resultIndex);
+    }
 
     public void fillMenu() {
         actions[0] = new AddItem();
@@ -40,8 +53,8 @@ public class MenuTracker {
         actions[5] = this.new FindByName();
         actions[6] = new MenuTracker.Exit();
     }
-    public void select(String index) {
-         actions[Integer.valueOf(index)].execute(tracker, input);
+    public void select(int index) {
+         actions[index].execute(tracker, input);
     }
 
     public void snowMenu() {
