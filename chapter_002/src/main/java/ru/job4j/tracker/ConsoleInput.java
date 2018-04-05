@@ -32,7 +32,7 @@ public class ConsoleInput implements  Input {
         if (isInRange) {
             return value;
         } else {
-            throw new MenuOutException("Ввод должен быть от 0 до 6");
+            throw new MenuOutException("Ввод должен быть от 0 до 6.");
 
         }
     }

@@ -7,6 +7,8 @@ package ru.job4j.tracker;
  * 1. Используя класс ConsoleInput в классе StartUI обеспечить полноценную работу всего приложения [#784]
  * + Реализовать события на внутренних классах. [#787]
  * + Обеспечить бесперебойную работу приложения Tracker. [#789]
+ * + Рефакторинг - Шаблон Декоратор для валидатора. [#34117]
+ *
  * @author Viathceslav Bugakov
  * @version %Id%
  * @since 0.1
@@ -53,6 +55,6 @@ public class StartUI {
      */
 
     public static void main(String[] args) {
-        new StartUI(new ValidateInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
     }
 }
