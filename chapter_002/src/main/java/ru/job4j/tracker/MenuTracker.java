@@ -1,13 +1,15 @@
 package ru.job4j.tracker;
 
 
-import java.lang.reflect.Array;
+
 import java.util.Arrays;
 
 /**
  * Class MenuTracker -  solution of task:
  * Реализовать события на внутренних классах. [#787]
- *
+ * + Рефакторинг - Перенести общие методы в абстрактный класс [#790]
+ * оставил реализацию на внутренних классах как в задании #787
+ * только одно действие Show All куфдизовал как анонимный класс
  * @author Viathceslav Bugakov
  * @version %Id%
  * @since 0.1
@@ -15,12 +17,11 @@ import java.util.Arrays;
 
 public class MenuTracker {
     private static final int MENUSIZE = 7;
-    public static final String MENUFORMAT = "%s. %s.%n";
     private Tracker tracker;
     private Input input;
     private static boolean exit;
 
-    private UserAction[] actions = new UserAction[MENUSIZE];
+    private BaseAction[] actions = new BaseAction[MENUSIZE];
 
     public MenuTracker(Tracker tracker, Input input) {
         this.tracker = tracker;
@@ -45,13 +46,23 @@ public class MenuTracker {
     }
 
     public void fillMenu() {
-        actions[0] = new AddItem();
-        actions[1] = this.new ShowAllItems();
-        actions[2] = this.new EditItem();
-        actions[3] = this.new DeleteItem();
-        actions[4] = this.new FindById();
-        actions[5] = this.new FindByName();
-        actions[6] = new MenuTracker.Exit();
+        actions[0] = new AddItem(0, "Добавить заявку");
+        actions[1] = new BaseAction(1, "Показать все заявки") {
+            @Override
+            public void execute(Tracker tracker, Input input) {
+                System.out.println("------------ Список всех заявок --------------");
+                System.out.println("Ключ | Имя | Описание");
+                for (Item item : tracker.findAll()) {
+                    System.out.printf("%s | %s | %s%n", item.getId(), item.getName(), item.getDescription());
+                }
+                System.out.println("------------ Конец списка -----------");
+            }
+        };
+        actions[2] = this.new EditItem(2, "Отредакировать заявку");
+        actions[3] = this.new DeleteItem(3, "Удалить заявку");
+        actions[4] = this.new FindById(4, "Найти заявку по ключу");
+        actions[5] = this.new FindByName(5, "Найти заявку по имени");
+        actions[6] = new MenuTracker.Exit(6, "Выйти из программы");
     }
     public void select(int index) {
          actions[index].execute(tracker, input);
@@ -67,34 +78,11 @@ public class MenuTracker {
 
     }
 
-    private class ShowAllItems implements UserAction {
-        private String localName = "Показать все заявки";
-        @Override
-        public int key() {
-            return 1;
-        }
 
-        @Override
-        public void execute(Tracker tracker, Input input) {
-            System.out.println("------------ Список всех заявок --------------");
-            System.out.println("Ключ | Имя | Описание");
-            for (Item item : tracker.findAll()) {
-                System.out.printf("%s | %s | %s%n", item.getId(), item.getName(), item.getDescription());
-            }
-            System.out.println("------------ Конец списка -----------");
-        }
+    private class EditItem extends BaseAction {
 
-        @Override
-        public String toString() {
-            return String.format(MENUFORMAT, this.key(), localName);
-        }
-    }
-
-    private class EditItem implements UserAction {
-        private String localName = "Отредакировать заявку";
-        @Override
-        public int key() {
-            return 2;
+        public  EditItem(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -116,17 +104,12 @@ public class MenuTracker {
             }
         }
 
-        @Override
-        public String toString() {
-            return String.format(MENUFORMAT, this.key(), localName);
-        }
     }
 
-    private class DeleteItem implements UserAction {
-        private String localName = "Удалить заявку";
-        @Override
-        public int key() {
-            return 3;
+    private class DeleteItem extends BaseAction {
+
+        public  DeleteItem(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -142,18 +125,12 @@ public class MenuTracker {
                 System.out.println("Заявка с таким ключом не найдена.");
             }
         }
-
-        @Override
-        public String toString() {
-            return String.format(MENUFORMAT, this.key(), localName);
-        }
     }
 
-    private class FindById implements UserAction {
-        private String localName = "Найти заявку по ключу";
-        @Override
-        public int key() {
-            return 4;
+    private class FindById extends BaseAction {
+
+        public  FindById(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -167,18 +144,12 @@ public class MenuTracker {
                 System.out.println("Заявка с таким ключом не найдена.");
             }
         }
-
-        @Override
-        public String toString() {
-            return String.format(MENUFORMAT, this.key(), localName);
-        }
     }
 
-    private class FindByName implements UserAction {
-        private String localName = "Найти заявку по имени";
-        @Override
-        public int key() {
-            return 5;
+    private class FindByName extends BaseAction {
+
+        public  FindByName(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -202,39 +173,26 @@ public class MenuTracker {
                 System.out.println("Заявка с таким именем не найдена.");
             }
         }
-
-        @Override
-        public String toString() {
-            return String.format(MENUFORMAT, this.key(), localName);
-        }
     }
 
-    private static class Exit implements UserAction {
-        private String localName = "Выйти из программы";
-        @Override
-        public int key() {
-            return 6;
+    private static class Exit extends BaseAction {
+
+        public  Exit(int key, String name) {
+            super(key, name);
         }
 
         @Override
         public void execute(Tracker tracker, Input input) {
             MenuTracker.exit = true;
         }
-
-        @Override
-        public String toString() {
-            return String.format(MENUFORMAT, this.key(), localName);
-        }
     }
 
 }
 
-class AddItem implements UserAction {
-    private String localName = "Добавить заявку";
+class AddItem extends BaseAction {
 
-    @Override
-    public int key() {
-        return 0;
+    public  AddItem(int key, String name) {
+        super(key, name);
     }
 
     @Override
@@ -245,10 +203,5 @@ class AddItem implements UserAction {
         Item item = new Item(name, desc, System.currentTimeMillis());
         tracker.add(item);
         System.out.printf("------------ Новая заявка с getId : %s -----------%n", item.getId());
-    }
-
-    @Override
-    public String toString() {
-        return String.format(MenuTracker.MENUFORMAT, this.key(), localName);
     }
 }
