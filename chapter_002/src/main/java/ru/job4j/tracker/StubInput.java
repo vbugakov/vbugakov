@@ -54,11 +54,9 @@ public class StubInput implements Input {
                 break;
             }
         }
-        if (isInRange) {
-            return value;
-        } else {
+        if (!isInRange) {
             throw new MenuOutException("Ввод должен быть от 0 до 6.");
-
         }
+        return value;
     }
 }
