@@ -12,6 +12,16 @@ public interface Figure {
 
     }
 
+    default Cell findBy(int x, int y) {
+        Cell rst = Cell.A1;
+        for (Cell cell:Cell.values()) {
+            if (cell.x == x && cell.y == y) {
+                rst = cell;
+            }
+        }
+        return rst;
+    }
+
     Figure copy(Cell dest);
 
 }
