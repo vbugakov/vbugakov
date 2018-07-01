@@ -21,33 +21,26 @@ public class Logic {
 
     public boolean move(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
         boolean rst = false;
+        Cell[]steps = new Cell[0];
         int index = this.findBy(source);
-            if (index == -1) {
-                throw new FigureNotFoundException();
-            } else {
-                try {
-                    Cell[] steps = this.figures[index].way(source, dest);
-                    if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                        int occupant = -1;
-                        for (Cell step : steps) {
-                            if (this.findBy(step) != -1) {
-                                occupant = this.findBy(step);
-                                break;
-                            }
-                        }
-                        if (occupant == -1) {
-                            rst = true;
-                            this.figures[index] = this.figures[index].copy(dest);
-                        } else {
-                            throw new OccupiedWayException();
-                        }
 
-                    }
 
-                } catch (ImpossibleMoveException e) {
-                    throw new ImpossibleMoveException();
-                }
+        if (index == -1) {
+            throw new FigureNotFoundException();
+        }
+
+        if (index >= 0) {
+            steps = this.figures[index].way(source, dest);
+            int occupant = this.findBy(steps);
+            if (occupant >= 0) {
+                throw new OccupiedWayException();
             }
+        }
+
+        if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+            rst = true;
+            this.figures[index] = this.figures[index].copy(dest);
+        }
         return rst;
     }
 
@@ -56,6 +49,17 @@ public class Logic {
             this.figures[position] = null;
         }
         this.index = 0;
+    }
+
+    private int findBy(Cell[] steps) {
+        int result = -1;
+        for (Cell step : steps) {
+            if (this.findBy(step) != -1) {
+                result = this.findBy(step);
+                break;
+            }
+        }
+        return result;
     }
 
     private int findBy(Cell cell) {
