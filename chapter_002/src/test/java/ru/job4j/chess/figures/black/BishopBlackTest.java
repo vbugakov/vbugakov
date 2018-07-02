@@ -31,10 +31,10 @@ public class BishopBlackTest {
      */
     @Test
     public void whenWayIsCorrectNorthEastThenReturnCells() {
-        Figure bishop = new BishopBlack(Cell.B8);
+        Figure bishop = new BishopBlack(Cell.F6);
         StringBuilder result = new StringBuilder();
         try {
-            Cell[] bishopway = bishop.way(Cell.B8, Cell.D6);
+            Cell[] bishopway = bishop.way(Cell.F6, Cell.D4);
             for (Cell cell: bishopway) {
                 result.append(cell);
                 result.append(" ");
@@ -42,15 +42,15 @@ public class BishopBlackTest {
         } catch (ImpossibleMoveException e) {
             result.append(e.getClass().getSimpleName());
         }
-        assertThat(result.toString(), is(String.format("%s %s", "C7", "D6")));
+        assertThat(result.toString(), is(String.format("%s %s ", "E5", "D4")));
     }
 
     @Test
     public void whenWayIsCorrectNorthWestThenReturnCells() {
-        Figure bishop = new BishopBlack(Cell.D8);
+        Figure bishop = new BishopBlack(Cell.F6);
         StringBuilder result = new StringBuilder();
         try {
-            Cell[] bishopway = bishop.way(Cell.D8, Cell.B6);
+            Cell[] bishopway = bishop.way(Cell.F6, Cell.H4);
             for (Cell cell: bishopway) {
                 result.append(cell);
                 result.append(" ");
@@ -58,7 +58,7 @@ public class BishopBlackTest {
         } catch (ImpossibleMoveException e) {
             result.append(e.getClass().getSimpleName());
         }
-        assertThat(result.toString(), is(String.format("%s %s", "C7", "B6")));
+        assertThat(result.toString(), is(String.format("%s %s ", "G5", "H4")));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class BishopBlackTest {
         } catch (ImpossibleMoveException e) {
             result.append(e.getClass().getSimpleName());
         }
-        assertThat(result.toString(), is(String.format("%s %s", "B7", "A8")));
+        assertThat(result.toString(), is(String.format("%s %s ", "B7", "A8")));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class BishopBlackTest {
         } catch (ImpossibleMoveException e) {
             result.append(e.getClass().getSimpleName());
         }
-        assertThat(result.toString(), is(String.format("%s %s", "C7", "D8")));
+        assertThat(result.toString(), is(String.format("%s %s ", "C7", "D8")));
     }
 
 

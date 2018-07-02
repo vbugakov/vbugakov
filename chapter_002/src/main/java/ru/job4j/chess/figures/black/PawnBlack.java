@@ -25,8 +25,7 @@ public class PawnBlack implements Figure {
 
     @Override
     public Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException {
-        int size = Math.abs(source.y - dest.y);
-        Cell[] steps = new Cell[size];
+        Cell[] steps = new Cell[Math.abs(source.y - dest.y)];
 
         if (!(((source.y == 6 && source.y == dest.y + 2) || source.y == dest.y + 1) && source.x == dest.x)) {
             throw new ImpossibleMoveException();
