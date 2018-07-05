@@ -5,8 +5,9 @@ import ru.job4j.chess.figures.Cell;
 import ru.job4j.chess.figures.Figure;
 
 /**
- *
- * @author Petr Arsentev (parsentev@yandex.ru)
+ * Class BishopBlack - realisation of moving rules of Black Bishop
+ * task: Каркас шахматной доски [#792]
+ * @author Petr Arsentev (parsentev@yandex.ru),Viathceslav Bugakov(gered@mail.ru)
  * @version $Id$
  * @since 0.1
  */
@@ -25,32 +26,13 @@ public class BishopBlack implements Figure {
     @Override
     public Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException {
         Cell[] steps = new Cell[Math.abs(source.y - dest.y)];
+        int deltaX = dest.x > source.x ? 1 : -1;
+        int deltaY = dest.y > source.y ? 1 : -1;
         if (source.y - source.x != dest.y - dest.x && (7 - (source.x + source.y)) != (7 - (dest.x + dest.y))) {
             throw new ImpossibleMoveException();
         }
-
-        if (dest.x < source.x && dest.y < source.y) { // north west
-            for (int i = 0; i < steps.length; i++) {
-                steps[i] = this.findBy(source.x - 1 - i, source.y - 1 - i);
-            }
-        }
-        
-        if (dest.x > source.x && dest.y < source.y) { //north east
-            for (int i = 0; i < steps.length; i++) {
-                steps[i] = this.findBy(source.x + 1 + i, source.y - 1 - i);
-            }
-        }
-        
-        if (dest.x > source.x && dest.y > source.y) { // south west
-            for (int i = 0; i < steps.length; i++) {
-                steps[i] = this.findBy(source.x + 1 + i, source.y + 1 + i);
-            }
-        }
-        
-        if (dest.x < source.x && dest.y > source.y) { // south east
-            for (int i = 0; i < steps.length; i++) {
-                steps[i] = this.findBy(source.x - 1 - i, source.y + 1 + i);
-            }
+        for (int i = 0; i < steps.length; i++) {
+            steps[i] = i == 0 ? this.findBy(source.x + deltaX, source.y + deltaY) : this.findBy(steps[i - 1].x + deltaX, steps[i - 1].y + deltaY);
         }
         return steps;
     }
