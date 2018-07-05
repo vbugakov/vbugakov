@@ -39,12 +39,6 @@ public class CoffeeMachineTest {
     }
 
     @Test
-    public void whenNoSuchNominalThenSizeZero() {
-        int[] result = new CoffeeMachine().changes(51, 35);
-        assertThat(result.length, is(0));
-    }
-
-    @Test
     public void whenPriceThirtyTwoThenAllCoinsIn() {
         int[] result = new CoffeeMachine().changes(50, 32);
         assertThat(result, is(new int[]{10, 5, 2, 1}));

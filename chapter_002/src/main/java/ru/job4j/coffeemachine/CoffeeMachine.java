@@ -21,33 +21,30 @@ package ru.job4j.coffeemachine;
  */
 
 public class CoffeeMachine {
-    private Money money = new Money();
+    private int[] coins = new int[]{1, 2, 5, 10};
 
-    int[] changes(int value, int price) {
-        int[] result = new int[0];
-        try {
-            int changeAmount = money.validateMoney(value) - price;
-            int coinsIndex = money.getCoins().length - 1;
-            result = new int[arraySize(changeAmount)];
-            for (int i = 0; i < result.length; i++) {
-                if (changeAmount < money.getCoins()[coinsIndex]) {
-                    while (changeAmount < money.getCoins()[coinsIndex]) {
-                        coinsIndex--;
-                    }
+    public int[] changes(int value, int price) {
+        int changeAmount = value - price;
+        int coinsIndex = coins.length - 1;
+        int[] result = new int[arraySize(changeAmount)];
+        for (int i = 0; i < result.length; i++) {
+            if (changeAmount < coins[coinsIndex]) {
+                while (changeAmount < coins[coinsIndex]) {
+                    coinsIndex--;
                 }
-                result[i] = money.getCoins()[coinsIndex];
-                changeAmount -= money.getCoins()[coinsIndex];
             }
-        } catch (NoSuchNominal e) { }
+            result[i] = coins[coinsIndex];
+            changeAmount -= coins[coinsIndex];
+        }
         return  result;
     }
 
     private int arraySize(int change) {
         int size = 0;
-        for (int i = money.getCoins().length - 1; i >= 0; i--) {
+        for (int i = coins.length - 1; i >= 0; i--) {
             if (change != 0) {
-                size += change / money.getCoins()[i];
-                change -= (change / money.getCoins()[i]) * money.getCoins()[i];
+                size += change / coins[i];
+                change -= (change / coins[i]) * coins[i];
             }
         }
         return size;
