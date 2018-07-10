@@ -32,7 +32,8 @@ public class PriorityQueueTest {
         queue.put(new Task("low", 5));
         queue.put(new Task("urgent", 1));
         queue.put(new Task("middle", 3));
-        for (int i = 0; i < 4; i++) {
+        queue.put(new Task("middle", 8));
+        for (int i = 0; i < 5; i++) {
             try {
                 result.append(String.format("%s ", queue.take().getDesc()));
             } catch (NullPointerException e) {
@@ -40,7 +41,7 @@ public class PriorityQueueTest {
             }
 
         }
-        assertThat(result.toString(), is("urgent middle low NPE "));
+        assertThat(result.toString(), is("urgent middle low middle NPE "));
     }
 
     @Test
@@ -60,7 +61,8 @@ public class PriorityQueueTest {
         queue.putSE(new Task("low", 5));
         queue.putSE(new Task("urgent", 1));
         queue.putSE(new Task("middle", 3));
-        for (int i = 0; i < 4; i++) {
+        queue.putSE(new Task("middle", 8));
+        for (int i = 0; i < 5; i++) {
             try {
                 result.append(String.format("%s ", queue.take().getDesc()));
             } catch (NullPointerException e) {
@@ -68,6 +70,6 @@ public class PriorityQueueTest {
             }
 
         }
-        assertThat(result.toString(), is("urgent middle low NPE "));
+        assertThat(result.toString(), is("urgent middle low middle NPE "));
     }
 }

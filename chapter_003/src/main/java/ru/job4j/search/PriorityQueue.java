@@ -27,15 +27,19 @@ public class PriorityQueue {
      * @param task задача
      */
     public void put(Task task) {
-
         if (tasks.isEmpty()) {
             tasks.add(0, task); //можно использовать .addFirst(task)
         } else {
             int size = this.tasks.size();
+            boolean finded = false;
             for (int i = 0; i < size; i++) {
                 if (tasks.get(i).getPriority() > task.getPriority()) {
                     tasks.add(i, task);
+                    finded = true;
                 }
+            }
+            if (!finded) {
+                tasks.add(this.tasks.size(), task);
             }
         }
     }
