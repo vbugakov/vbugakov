@@ -34,9 +34,7 @@ public class PriorityQueue {
             int size = this.tasks.size();
             for (int i = 0; i < size; i++) {
                 if (tasks.get(i).getPriority() > task.getPriority()) {
-                    Task buffer = tasks.get(i);
-                    tasks.set(i, task);
-                    tasks.add(i + 1, buffer); //можно использовать .addLast(task)
+                    tasks.add(i, task);
                 }
             }
         }
