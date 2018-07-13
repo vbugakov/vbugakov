@@ -5,7 +5,8 @@ import java.util.List;
 
 /**
  * Class ConvertList2Array -  solution of task:
- * 3. Конвертация ArrayList в двухмерный массив [#10035]
+ * 3. Конвертация ArrayList в двухмерный массив [#10035],
+ * 1. Конвертация листа массивов в один лист Integer [#10037]
  *
  * @author Viathceslav Bugakov
  * @version %Id%
@@ -46,4 +47,21 @@ public class ConvertList2Array {
         }
         return result;
     }
+    /**
+     * В классе ConvertList из 3-го задания 1-го урока написать метод:
+     * public List<Integer> convert (List<int[]> list)
+     * В этом методе вы должны пройтись по всем элементам всех массивов в списке list и
+     * добавить их в один общий лист Integer.
+     * Массивы в списке list могут быть разного размера.
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> result = new ArrayList<Integer>();
+        for (int[] array : list) {
+            for (int value : array) {
+                result.add(value);
+            }
+        }
+        return result;
+    }
+
 }
