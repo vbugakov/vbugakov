@@ -3,25 +3,26 @@ package ru.job4j.tracker;
 
 
 import java.util.Arrays;
+import  java.util.ArrayList;
 
 /**
  * Class MenuTracker -  solution of task:
  * Реализовать события на внутренних классах. [#787]
  * + Рефакторинг - Перенести общие методы в абстрактный класс [#790]
  * оставил реализацию на внутренних классах как в задании #787
- * только одно действие Show All куфдизовал как анонимный класс
+ * только одно действие Show All реализовал как анонимный класс
+ * 3. Изменить программу Tracker из 2-го модуля [#10039]
  * @author Viathceslav Bugakov
  * @version %Id%
  * @since 0.1
  */
 
 public class MenuTracker {
-    private static final int MENUSIZE = 7;
     private Tracker tracker;
     private Input input;
     private static boolean exit;
 
-    private BaseAction[] actions = new BaseAction[MENUSIZE];
+    private ArrayList<BaseAction> actions = new ArrayList<BaseAction>();
 
     public MenuTracker(Tracker tracker, Input input) {
         this.tracker = tracker;
@@ -34,20 +35,16 @@ public class MenuTracker {
         return  this.exit;
     }
     public int[] getMenuRange() {
-        int resultIndex = 0;
-        int[] resultArray = new int[actions.length];
-        for (int i = 0; i < actions.length; i++) {
-           try {
-               resultArray[resultIndex] = actions[i].key();
-               resultIndex++;
-           } catch (NullPointerException e) { }
+        int[] resultArray = new int[actions.size()];
+        for (int i = 0; i < actions.size(); i++) {
+               resultArray[i] = actions.get(i).key();
         }
-        return Arrays.copyOf(resultArray, resultIndex);
+        return resultArray;
     }
 
     public void fillMenu() {
-        actions[0] = new AddItem(0, "Добавить заявку");
-        actions[1] = new BaseAction(1, "Показать все заявки") {
+        actions.add(new AddItem(0, "Добавить заявку"));
+        actions.add(new BaseAction(1, "Показать все заявки") {
             @Override
             public void execute(Tracker tracker, Input input) {
                 System.out.println("------------ Список всех заявок --------------");
@@ -57,15 +54,15 @@ public class MenuTracker {
                 }
                 System.out.println("------------ Конец списка -----------");
             }
-        };
-        actions[2] = this.new EditItem(2, "Отредакировать заявку");
-        actions[3] = this.new DeleteItem(3, "Удалить заявку");
-        actions[4] = this.new FindById(4, "Найти заявку по ключу");
-        actions[5] = this.new FindByName(5, "Найти заявку по имени");
-        actions[6] = new MenuTracker.Exit(6, "Выйти из программы");
+        });
+        actions.add(this.new EditItem(2, "Отредакировать заявку"));
+        actions.add(this.new DeleteItem(3, "Удалить заявку"));
+        actions.add(this.new FindById(4, "Найти заявку по ключу"));
+        actions.add(this.new FindByName(5, "Найти заявку по имени"));
+        actions.add(new MenuTracker.Exit(6, "Выйти из программы"));
     }
     public void select(int index) {
-         actions[index].execute(tracker, input);
+         actions.get(index).execute(tracker, input);
     }
 
     public void snowMenu() {
