@@ -3,6 +3,7 @@ package ru.job4j.sort;
 /**
  * Class User -  solution of task:
  * 1. Организовать сортировку User [#10034]
+ * 2. Сортировка User с использованием Comparator [#10036]
  *
  * @author Viathceslav Bugakov
  * @version %Id%
@@ -16,6 +17,13 @@ public class User implements Comparable<User> {
     public User(String name, int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+    public int getAge() {
+        return this.age;
     }
 
     @Override
