@@ -85,19 +85,20 @@ public class MenuTracker {
         @Override
         public void execute(Tracker tracker, Input input) {
             System.out.println("------------ Редактирование заявкики --------------");
-            String name = input.ask("Введите имя заявки, которую хотите отредактировать :");
-            Item[] findedItems = tracker.findByName(name);
-            if (findedItems.length > 0) {
+            String id = input.ask("Введите ID заявки, которую хотите отредактировать :");
+            Item findedItem = tracker.findById(id);
+            if (findedItem != null) {
                 System.out.printf("Заявка найдена ID : %s Имя : %s Описание : %s %n",
-                        findedItems[0].getId(), findedItems[0].getName(), findedItems[0].getDescription());
+                        findedItem.getId(), findedItem.getName(), findedItem.getDescription());
                 String newname = input.ask("Введите новое имя заявки :");
                 String newdesc = input.ask("Введите новое описание заявки :");
                 Item newitem = new Item(newname, newdesc, System.currentTimeMillis());
-                tracker.replace(findedItems[0].getId(), newitem);
+                tracker.replace(findedItem.getId(), newitem);
+                Item changedItem = tracker.findById(newitem.getId());
                 System.out.printf("Заявка с ID : %s изменена - Имя : %s Описание : %s%n",
-                        newitem.getId(), newitem.getName(),  newitem.getDescription());
+                        changedItem.getId(), changedItem.getName(),  changedItem.getDescription());
             } else {
-                System.out.println("Заявка с таким именем не найдена.");
+                System.out.println("Заявка с таким ID не найдена.");
             }
         }
 

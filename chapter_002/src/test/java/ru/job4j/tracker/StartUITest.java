@@ -75,11 +75,10 @@ public class StartUITest {
     @Test
     public void whenEditPresentItemOutput() {
         Tracker tracker = new Tracker();
-        String nameToFind = "name";
         StringBuilder expected = new StringBuilder();
-        Item item = tracker.add(new Item(nameToFind, "description", System.currentTimeMillis()));
-        expected.append(resultEditHead(tracker, nameToFind));
-        Input input = new StubInput(new String[]{"2", item.getName(), "test name", "desc", "6"});
+        Item item = tracker.add(new Item("name", "description", System.currentTimeMillis()));
+        expected.append(resultEditHead(tracker, item.getId()));
+        Input input = new StubInput(new String[]{"2", item.getId(), "test name", "desc", "6"});
         new StartUI(input, tracker).init();
         expected.append(resultEditTail(tracker, "test name", item.getId()));
         assertThat(out.toString(), is(expected.toString()));
@@ -88,13 +87,12 @@ public class StartUITest {
     @Test
     public void whenEditNonPresentItemOutput() {
         Tracker tracker = new Tracker();
-        String nameToFind = "name";
         StringBuilder expected = new StringBuilder();
         Item item = tracker.add(new Item("namename", "description", System.currentTimeMillis()));
-        expected.append(resultEditHead(tracker, nameToFind));
-        Input input = new StubInput(new String[]{"2", nameToFind, "6"});
+        expected.append(resultEditHead(tracker,"11111"));
+        Input input = new StubInput(new String[]{"2","11111", "6"});
         new StartUI(input, tracker).init();
-        expected.append(resultEditTail(tracker, nameToFind, item.getId()));
+        expected.append(resultEditTail(tracker,"11111", item.getId()));
         assertThat(new String(out.toByteArray()), is(expected.toString()));
     }
 
@@ -228,18 +226,18 @@ public class StartUITest {
               .append(menu);
         return result.toString();
     }
-    private String resultEditHead(Tracker tracker, String name) {
+    private String resultEditHead(Tracker tracker, String id) {
         StringBuilder result = new StringBuilder();
         result.append(menu);
         result.append("------------ Редактирование заявкики --------------");
         result.append(System.lineSeparator());
-        Item[] findedItems = tracker.findByName(name);
-        if (findedItems.length > 0) {
+        Item findedItem = tracker.findById(id);
+        if (findedItem != null) {
             result.append(String.format("Заявка найдена ID : %s Имя : %s Описание : %s ",
-                    findedItems[0].getId(), findedItems[0].getName(), findedItems[0].getDescription()));
+                    findedItem.getId(), findedItem.getName(), findedItem.getDescription()));
             result.append(System.lineSeparator());
         } else {
-            result.append("Заявка с таким именем не найдена.");
+            result.append("Заявка с таким ID не найдена.");
             result.append(System.lineSeparator());
         }
         return result.toString();
