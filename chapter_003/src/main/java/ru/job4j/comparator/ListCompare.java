@@ -35,8 +35,8 @@ public class ListCompare implements Comparator<String> {
         int rst = 0;
         int size = Math.min(left.length(), right.length());
         for (int i = 0; i < size; i++) {
-            if (left.charAt(i) - right.charAt(i) != 0) {
-                rst = left.charAt(i) - right.charAt(i);
+            rst = left.charAt(i) - right.charAt(i);
+            if (rst != 0) {
                 break;
             }
         }
