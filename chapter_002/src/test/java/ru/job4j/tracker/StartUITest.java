@@ -89,10 +89,10 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         StringBuilder expected = new StringBuilder();
         Item item = tracker.add(new Item("namename", "description", System.currentTimeMillis()));
-        expected.append(resultEditHead(tracker,"11111"));
-        Input input = new StubInput(new String[]{"2","11111", "6"});
+        expected.append(resultEditHead(tracker, "11111"));
+        Input input = new StubInput(new String[]{"2", "11111", "6"});
         new StartUI(input, tracker).init();
-        expected.append(resultEditTail(tracker,"11111", item.getId()));
+        expected.append(resultEditTail(tracker, "11111", item.getId()));
         assertThat(new String(out.toByteArray()), is(expected.toString()));
     }
 
