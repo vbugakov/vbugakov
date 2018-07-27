@@ -63,10 +63,11 @@ public class SortUser {
         users.sort(new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {
-
-                return o1.getName().compareToIgnoreCase(o2.getName()) != 0
-                        ? o1.getName().compareToIgnoreCase(o2.getName())
-                        : o1.getAge() - o2.getAge();
+                int rst = o1.getName().compareToIgnoreCase(o2.getName());
+                if (rst == 0) {
+                    rst = o1.getAge() - o2.getAge();
+                }
+                return rst;
             }
         });
      return users;
