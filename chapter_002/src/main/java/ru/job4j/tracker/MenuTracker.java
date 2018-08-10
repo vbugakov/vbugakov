@@ -4,6 +4,8 @@ package ru.job4j.tracker;
 
 import java.util.Arrays;
 import  java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Class MenuTracker -  solution of task:
@@ -20,7 +22,7 @@ import  java.util.ArrayList;
 public class MenuTracker {
     private Tracker tracker;
     private Input input;
-    private static boolean exit;
+    private boolean exit;
 
     private ArrayList<BaseAction> actions = new ArrayList<BaseAction>();
 
@@ -34,6 +36,7 @@ public class MenuTracker {
     public boolean getExit() {
         return  this.exit;
     }
+
     public int[] getMenuRange() {
         int[] resultArray = new int[actions.size()];
         for (int i = 0; i < actions.size(); i++) {
@@ -59,7 +62,7 @@ public class MenuTracker {
         actions.add(this.new DeleteItem(3, "Удалить заявку"));
         actions.add(this.new FindById(4, "Найти заявку по ключу"));
         actions.add(this.new FindByName(5, "Найти заявку по имени"));
-        actions.add(new MenuTracker.Exit(6, "Выйти из программы"));
+        actions.add(this.new Exit(6, "Выйти из программы", this));
     }
     public void select(int index) {
          actions.get(index).execute(tracker, input);
@@ -86,17 +89,13 @@ public class MenuTracker {
         public void execute(Tracker tracker, Input input) {
             System.out.println("------------ Редактирование заявкики --------------");
             String id = input.ask("Введите ID заявки, которую хотите отредактировать :");
-            Item findedItem = tracker.findById(id);
-            if (findedItem != null) {
-                System.out.printf("Заявка найдена ID : %s Имя : %s Описание : %s %n",
-                        findedItem.getId(), findedItem.getName(), findedItem.getDescription());
-                String newname = input.ask("Введите новое имя заявки :");
-                String newdesc = input.ask("Введите новое описание заявки :");
-                Item newitem = new Item(newname, newdesc, System.currentTimeMillis());
-                tracker.replace(findedItem.getId(), newitem);
-                Item changedItem = tracker.findById(newitem.getId());
+            String newname = input.ask("Введите новое имя заявки :");
+            String newdesc = input.ask("Введите новое описание заявки :");
+            Item newitem = new Item(newname, newdesc, System.currentTimeMillis());
+
+            if (tracker.replace(id, newitem)) {
                 System.out.printf("Заявка с ID : %s изменена - Имя : %s Описание : %s%n",
-                        changedItem.getId(), changedItem.getName(),  changedItem.getDescription());
+                        newitem.getId(), newitem.getName(),  newitem.getDescription());
             } else {
                 System.out.println("Заявка с таким ID не найдена.");
             }
@@ -114,9 +113,9 @@ public class MenuTracker {
         public void execute(Tracker tracker, Input input) {
             System.out.println("------------ Удаление Заявки --------------");
             String id = input.ask("Введите  ключ заявки, которую хотите удалить :");
-            if (tracker.findById(id) != null) {
-                Item prey = tracker.findById(id);
-                tracker.delete(id);
+            Item prey = tracker.findById(id);
+
+            if (tracker.delete(id)) {
                 System.out.printf("Заявка успешно удалена. Ключ : %s Имя : %s Описание : %s%n",
                         prey.getId(), prey.getName(), prey.getDescription());
             } else {
@@ -154,34 +153,40 @@ public class MenuTracker {
         public void execute(Tracker tracker, Input input) {
             System.out.println("------------ Поиск заявки по имени --------------");
             String name = input.ask("Введите имя заявки, которую хотите найти :");
-            Item[] findedItems = tracker.findByName(name);
-            if (findedItems.length > 0) {
-                if (findedItems.length == 1) {
-                    System.out.printf("Заявка найдена. Ключ: %s Имя: %s Описание: %s%n",
-                            findedItems[0].getId(), findedItems[0].getName(), findedItems[0].getDescription());
-                }
-                if (findedItems.length > 1) {
-                    System.out.printf("Найдено %s заявок :%n", findedItems.length);
-                    System.out.println("Ключ | Имя | Описание");
-                    for (Item item : findedItems) {
-                        System.out.printf("%s | %s | %s%n", item.getId(), item.getName(), item.getDescription());
+            List<Item> findedItems = tracker.findByName(name);
+            boolean isEmpty = findedItems.isEmpty();
+            String head = !findedItems.isEmpty() && findedItems.size() == 1
+                    ? String.format("Заявка найдена. ")
+                    : findedItems.isEmpty()
+                    ? String.format("Заявка с таким именем не найдена.%n")
+                    : String.format("Найдено %s заявок :%nКлюч | Имя | Описание%n", findedItems.size());
+            System.out.printf(head);
+
+            if (!findedItems.isEmpty()) {
+                for (Item item : findedItems) {
+                    if (findedItems.size() == 1) {
+                        System.out.printf("Ключ: %s Имя: %s Описание: %s%n",
+                                item.getId(), item.getName(), item.getDescription());
+                        break;
                     }
+                    System.out.printf("%s | %s | %s%n", item.getId(), item.getName(), item.getDescription());
                 }
-            } else {
-                System.out.println("Заявка с таким именем не найдена.");
             }
         }
     }
 
-    private static class Exit extends BaseAction {
+    private class Exit extends BaseAction {
+        private final MenuTracker menu;
 
-        public  Exit(int key, String name) {
+
+        public  Exit(int key, String name, MenuTracker menu) {
             super(key, name);
+            this.menu = menu;
         }
 
         @Override
         public void execute(Tracker tracker, Input input) {
-            MenuTracker.exit = true;
+             this.menu.exit = true;
         }
     }
 

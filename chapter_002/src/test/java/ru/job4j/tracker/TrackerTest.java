@@ -24,7 +24,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription", 123L);
         tracker.add(item);
-        assertThat(tracker.findAll()[0], is(item));
+        assertThat(tracker.findAll().get(0), is(item));
     }
 
     /**
@@ -36,10 +36,10 @@ public class TrackerTest {
         for (int i = 0; i < 5; i++) {
             tracker.add(new Item("test" + i, "desc" + i, 123L + i));
         }
-       int expected = tracker.findAll().length - 1;
-        String preyId = tracker.findByName("test1")[0].getId();
+       int expected = tracker.findAll().size() - 1;
+        String preyId = tracker.findByName("test1").get(0).getId();
         tracker.delete(preyId);
-        assertThat(tracker.findAll().length, is(expected));
+        assertThat(tracker.findAll().size(), is(expected));
     }
 
     /**
@@ -55,6 +55,16 @@ public class TrackerTest {
         tracker.replace(previous.getId(), next);
         assertThat(tracker.findById(previous.getId()).getName(), is("test2"));
     }
+    @Test
+    public void whenReplaceNameThenReturnTrue() {
+        Tracker tracker = new Tracker();
+        Item previous = new Item("test1", "testDescription", 123L);
+        tracker.add(previous);
+        Item next = new Item("test2", "testDescription2", 1234L);
+        next.setId(previous.getId());
+
+        assertThat(tracker.replace(previous.getId(), next), is(true));
+    }
 
     /**
      * test for method findAll
@@ -66,7 +76,7 @@ public class TrackerTest {
         for (int i = 0; i < expected; i++) {
             tracker.add(new Item("test" + i, "desc" + i, 123L + i));
         }
-        assertThat(tracker.findAll().length, is(expected));
+        assertThat(tracker.findAll().size(), is(expected));
     }
 
     /**
@@ -84,7 +94,7 @@ public class TrackerTest {
             }
 
         }
-        assertThat(tracker.findByName("tos").length, is(expected - 3));
+        assertThat(tracker.findByName("tos").size(), is(expected - 3));
     }
 
     /**
@@ -98,7 +108,7 @@ public class TrackerTest {
             tracker.add(new Item("test" + i, "desc" + i, 123L + i));
         }
         String expected = "test2";
-        Item result = tracker.findById(tracker.findByName(expected)[0].getId());
+        Item result = tracker.findById(tracker.findByName(expected).get(0).getId());
         assertThat(result.getName(), is(expected));
     }
 

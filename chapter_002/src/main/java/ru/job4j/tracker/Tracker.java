@@ -1,8 +1,6 @@
 package ru.job4j.tracker;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Class Tracker -  solution of task:
@@ -21,7 +19,7 @@ public class Tracker {
      * position - Index of array for new item.
      * RND - constance needs for id construction
      */
-    private ArrayList<Item> items = new ArrayList<Item>();
+    private List<Item> items = new ArrayList<Item>();
     private static final Random RND = new Random();
 
     /**
@@ -39,9 +37,13 @@ public class Tracker {
      *  должен заменить ячейку в массиве this.items.
      *  Для этого необходимо найти ячейку в массиве по id
      */
-    public void replace(String id, Item item) {
+    public boolean replace(String id, Item item) {
         item.setId(id);
-        this.items.set(indexById(id), item);
+        boolean result = !(indexById(id) < 0);
+        if (result) {
+            this.items.set(indexById(id), item);
+        }
+        return  result;
     }
 
     /**
@@ -50,8 +52,13 @@ public class Tracker {
      * Далее сместить все значения справа от удаляемого элемента - на одну ячейку влево с помощью
      * System.arrayCopy();
      */
-    public void delete(String id) {
-        items.remove(findById(id));
+    public boolean delete(String id) {
+        Item item = findById(id);
+        boolean result = !(item == null);
+        if (result) {
+            items.remove(item);
+        }
+        return result;
     }
 
     /**
@@ -59,8 +66,8 @@ public class Tracker {
      * возвращает копию массива this.items без null элементов;
      * @return Array of items.
      */
-    public Item[] findAll() {
-        return this.items.toArray(new Item[this.items.size()]);
+    public List<Item> findAll() {
+        return this.items;
     }
 
     /**
@@ -71,15 +78,14 @@ public class Tracker {
      * @param key
      * @return array of items finned by name
      */
-    public Item[] findByName(String key) {
-        Item[] result = new Item[this.items.size()];
-        int duplicate = 0;
+    public List<Item> findByName(String key) {
+        List<Item> result = new ArrayList<>();
         for (Item item : items) {
             if (item.getName().equals(key)) {
-                result[duplicate++] = item;
+                result.add(item);
             }
         }
-       return Arrays.copyOf(result, duplicate);
+       return result;
     }
 
     /**

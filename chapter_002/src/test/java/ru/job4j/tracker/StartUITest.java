@@ -9,6 +9,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import java.io.PrintStream;
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
@@ -90,7 +91,7 @@ public class StartUITest {
         StringBuilder expected = new StringBuilder();
         Item item = tracker.add(new Item("namename", "description", System.currentTimeMillis()));
         expected.append(resultEditHead(tracker, "11111"));
-        Input input = new StubInput(new String[]{"2", "11111", "6"});
+        Input input = new StubInput(new String[]{"2", "11111", "name", "Desc", "6"});
         new StartUI(input, tracker).init();
         expected.append(resultEditTail(tracker, "11111", item.getId()));
         assertThat(new String(out.toByteArray()), is(expected.toString()));
@@ -105,9 +106,9 @@ public class StartUITest {
     public void whenPresentItemDeletionOutput() {
 
         Tracker tracker = createFilledTracker(3, false, "name");
-        String preyID = tracker.findByName("name1")[0].getId();
-        String preyName = tracker.findByName("name1")[0].getName();
-        String preyDesc = tracker.findByName("name1")[0].getDescription();
+        String preyID = tracker.findByName("name1").get(0).getId();
+        String preyName = tracker.findByName("name1").get(0).getName();
+        String preyDesc = tracker.findByName("name1").get(0).getDescription();
         Input input = new StubInput(new String[]{"3", preyID, "6"});
         new StartUI(input, tracker).init();
         assertThat(out.toString(), is(resultDoneDelete(preyID, preyName, preyDesc)));
@@ -180,7 +181,7 @@ public class StartUITest {
     @Test
     public void whenFindPresentItemByIdOutput() {
         Tracker tracker = createFilledTracker(3, false, "name");
-        String id = tracker.findAll()[1].getId();
+        String id = tracker.findAll().get(1).getId();
         Input input = new StubInput(new String[]{"4", id, "6"});
         new StartUI(input, tracker).init();
         assertThat(out.toString(), is(resultFindById(tracker, id)));
@@ -205,7 +206,7 @@ public class StartUITest {
         result.append(menu);
         result.append("------------ Добавление новой заявкики --------------");
         result.append(System.lineSeparator());
-        result.append(String.format("------------ Новая заявка с getId : %s -----------", tracker.findAll()[0].getId()));
+        result.append(String.format("------------ Новая заявка с getId : %s -----------", tracker.findAll().get(0).getId()));
         result.append(System.lineSeparator());
         result.append(menu);
         return result.toString();
@@ -232,11 +233,7 @@ public class StartUITest {
         result.append("------------ Редактирование заявкики --------------");
         result.append(System.lineSeparator());
         Item findedItem = tracker.findById(id);
-        if (findedItem != null) {
-            result.append(String.format("Заявка найдена ID : %s Имя : %s Описание : %s ",
-                    findedItem.getId(), findedItem.getName(), findedItem.getDescription()));
-            result.append(System.lineSeparator());
-        } else {
+        if (findedItem == null) {
             result.append("Заявка с таким ID не найдена.");
             result.append(System.lineSeparator());
         }
@@ -245,8 +242,8 @@ public class StartUITest {
     private String resultEditTail(Tracker tracker, String name, String id) {
         StringBuilder result = new StringBuilder();
         if (tracker.findById(id).getName().equals(name)) {
-            result.append("Заявка с ID : " + tracker.findByName(name)[0].getId() + " изменена - Имя : " + tracker.findByName(name)[0].getName()
-                    + " Описание : " + tracker.findByName(name)[0].getDescription());
+            result.append("Заявка с ID : " + tracker.findByName(name).get(0).getId() + " изменена - Имя : " + tracker.findByName(name).get(0).getName()
+                    + " Описание : " + tracker.findByName(name).get(0).getDescription());
             result.append(System.lineSeparator());
         }
         result.append(menu);
@@ -290,19 +287,19 @@ public class StartUITest {
     }
     private String resultFindByName(Tracker tracker, String name) {
         StringBuilder result = new StringBuilder();
-        Item[] findedItems = tracker.findByName(name);
+        List<Item> findedItems = tracker.findByName(name);
         result.append(menu);
         result.append("------------ Поиск заявки по имени --------------");
         result.append(System.lineSeparator());
 
-        if (findedItems.length > 0) {
-            if (findedItems.length == 1) {
+        if (findedItems.size() > 0) {
+            if (findedItems.size() == 1) {
                 result.append(String.format("Заявка найдена. Ключ: %s Имя: %s Описание: %s",
-                        findedItems[0].getId(), findedItems[0].getName(), findedItems[0].getDescription()));
+                        findedItems.get(0).getId(), findedItems.get(0).getName(), findedItems.get(0).getDescription()));
                 result.append(System.lineSeparator());
             }
-            if (findedItems.length > 1) {
-                result.append(String.format("Найдено %s заявок :", findedItems.length));
+            if (findedItems.size() > 1) {
+                result.append(String.format("Найдено %s заявок :", findedItems.size()));
                 result.append(System.lineSeparator());
                 result.append("Ключ | Имя | Описание");
                 result.append(System.lineSeparator());
